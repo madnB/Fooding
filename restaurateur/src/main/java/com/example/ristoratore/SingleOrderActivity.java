@@ -2,17 +2,13 @@ package com.example.ristoratore;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,10 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -38,6 +31,7 @@ public class SingleOrderActivity extends AppCompatActivity {
 
     private static final int CHECK_ITEM_REQ = 45;
     private static final int RESULT_STATUS_CHANGE = 46;
+    private static final int BIKER_REQ = 47;
 
 
     private RecyclerView rView;
@@ -134,7 +128,15 @@ public class SingleOrderActivity extends AppCompatActivity {
         //buildRecyclerView();
 
         switch_status_btn.setOnClickListener(e -> {
-            final CharSequence[] items = { "New Order", "Cooking", "Ready","In Delivery"};
+            if(order.getStatus()==3){
+                Toast.makeText(SingleOrderActivity.this, "Order is already on delivery", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent=new Intent(getApplicationContext(), BikerActivity.class);
+            intent.putExtra("order", order);
+            startActivityForResult(intent, BIKER_REQ);
+
+            /*final CharSequence[] items = { "New Order", "Cooking", "Ready","In Delivery"};
             AlertDialog.Builder builder = new AlertDialog.Builder(SingleOrderActivity.this);
             builder.setTitle("Change Order Status");
             builder.setItems(items, (dialog, item) -> {
@@ -192,7 +194,7 @@ public class SingleOrderActivity extends AppCompatActivity {
 
                 }
             });
-            builder.show();
+            builder.show();*/
 
         });
 
@@ -264,5 +266,21 @@ public class SingleOrderActivity extends AppCompatActivity {
         super.onBackPressed();
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case BIKER_REQ:
+                if (resultCode == RESULT_STATUS_CHANGE) {
+                    Order returned_order = (Order)data.getSerializableExtra("order");
+                    if(returned_order.getStatus()==3) {
+                        orderStatus.setImageResource(R.mipmap.in_delivery);
+                        order.setStatus(3);
+                    }
+                }
+                break;
+        }
     }
 }
