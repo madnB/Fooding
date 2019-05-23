@@ -13,6 +13,12 @@
         android:background="@color/backgroundRecView"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="match_parent"
+            android:background="@mipmap/background_recyclerview">
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/biker_rView"
             android:paddingStart="4dp"
