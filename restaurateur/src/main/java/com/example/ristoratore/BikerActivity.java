@@ -141,6 +141,7 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                 database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("status").setValue("3");
                 Toast.makeText(BikerActivity.this, "Order has been sent to a biker!", Toast.LENGTH_SHORT).show();
                 order.setStatus(3);
+                order.setBikerId(adapter.getItem(position).getUid());
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("order", order);
                 setResult(RESULT_STATUS_CHANGE, returnIntent);

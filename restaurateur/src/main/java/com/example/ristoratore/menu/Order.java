@@ -18,6 +18,10 @@ public class Order implements Serializable, Comparable<Order> {
     private String price;
     private long priceL;
 
+
+
+    private String bikerId;
+
     public Order(){}
 
     public Order(String orderId, int status, ArrayList<Dish> dishList, String info, String address, GregorianCalendar deliveryTime, String price, Long priceL) {
@@ -29,6 +33,14 @@ public class Order implements Serializable, Comparable<Order> {
         this.deliveryTime = deliveryTime;
         this.price = price;
         this.priceL = priceL;
+    }
+
+    public String getBikerId() {
+        return bikerId;
+    }
+
+    public void setBikerId(String bikerId) {
+        this.bikerId = bikerId;
     }
 
     public int getStatus() { return status; }
