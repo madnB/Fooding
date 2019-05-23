@@ -132,6 +132,10 @@ public class SingleOrderActivity extends AppCompatActivity {
                 Toast.makeText(SingleOrderActivity.this, "Order is already on delivery", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if(order.getStatus()==4){
+                Toast.makeText(SingleOrderActivity.this, "Order was already delivered", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent=new Intent(getApplicationContext(), BikerActivity.class);
             intent.putExtra("order", order);
             startActivityForResult(intent, BIKER_REQ);
