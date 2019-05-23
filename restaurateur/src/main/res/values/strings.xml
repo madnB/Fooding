@@ -33,6 +33,7 @@
     <string name="signup_btn">SIGN UP</string>
     <string name="signin_btn">SIGN IN</string>
     <string name="signout_btn">SIGN OUT</string>
+    <string name="choose_biker">Choose a biker for delivery</string>
     <string-array name="food_types">
         <item>Food Type</item>
         <item>Italian</item>
