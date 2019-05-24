@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.ristoratore.menu.Biker;
 import com.example.ristoratore.menu.Dish;
 import com.example.ristoratore.menu.Order;
+import com.firebase.geofire.GeoFire;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,8 +27,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class BikerActivity extends AppCompatActivity implements BikerViewAdapter.ItemClickListener{
@@ -43,6 +46,8 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
     private String restname;
     private String restaddr;
     private Order order;
+    private Double latitude;
+    private Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,20 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!(dataSnapshot.getValue()==null))
                     restname=dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        database.child("restaurateur").child(uid).child("location").child("KEY").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!(dataSnapshot.getValue()==null)) {
+                    latitude = Double.parseDouble(dataSnapshot.child("l").child("0").getValue().toString());
+                    longitude = Double.parseDouble(dataSnapshot.child("l").child("1").getValue().toString());
+                }
             }
 
             @Override
@@ -94,11 +113,16 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                             fire.setWork_area(dataSnapshot1.child("work_area").getValue().toString());
                         if(dataSnapshot1.child("work_hours").getValue()!=null)
                             fire.setWork_hours(dataSnapshot1.child("work_hours").getValue().toString());
+                        DataSnapshot ls=dataSnapshot1.child("location").child("KEY").child("l");
+                        Double dist=Haversine.distance(Double.parseDouble(ls.child("0").getValue().toString()), Double.parseDouble(ls.child("1").getValue().toString()), latitude, longitude);
+                        DecimalFormat df=new DecimalFormat("#.##");
+                        fire.setDist((double)Math.round(dist*100d)/100d);
                         fire.setUid(dataSnapshot1.getKey());
                         fire.setPhotoUri(dataSnapshot1.getKey()+"/photo.jpg");
                         bikers.add(fire);
                     }
                 }
+                Collections.sort(bikers);
                 buildReciclerView();
             }
 
@@ -138,6 +162,7 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("info").setValue(order.getInfo());
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("restid").setValue(uid);
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("orderid").setValue(order.getOrderId());
+                database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("custid").setValue(order.getCustId());
                 database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("status").setValue("3");
                 Toast.makeText(BikerActivity.this, "Order has been sent to a biker!", Toast.LENGTH_SHORT).show();
                 order.setStatus(3);

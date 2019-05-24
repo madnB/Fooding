@@ -101,6 +101,7 @@ public class OrderActivity extends AppCompatActivity implements OrderViewAdapter
                     fire.setOrderId(dataSnapshot1.getKey());
                     fire.setPrice(dataSnapshot1.child("priceL").getValue().toString());
                     fire.setAddress(dataSnapshot1.child("address").getValue().toString());
+                    fire.setCustId(dataSnapshot1.child("custId").getValue().toString());
                     fire.setStatus(Integer.parseInt(dataSnapshot1.child("status").getValue().toString()));
                     fire.setInfo(dataSnapshot1.child("info").getValue().toString());
                     try {

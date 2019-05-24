@@ -1,5 +1,7 @@
 package com.example.biker;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -29,8 +31,15 @@ public class OrderActivity extends AppCompatActivity {
     private TextView price_tv;
     private TextView info_tv;
     private Button confirm_btn;
+    private Button rest_ind_btn;
+    private Button cust_ind_btn;
     private String rid;
+    private String cid;
     private String oid;
+    private String latrest;
+    private String longrest;
+    private String latcust;
+    private String longcust;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,8 @@ public class OrderActivity extends AppCompatActivity {
         price_tv=findViewById(R.id.price_text);
         info_tv=findViewById(R.id.info_text);
         confirm_btn=findViewById(R.id.confirm_btn);
+        rest_ind_btn=findViewById(R.id.rest_indication_btn);
+        cust_ind_btn=findViewById(R.id.cust_indication_btn);
         String uid=currentUser.getUid();
         database.child("biker").child(uid).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -142,6 +153,18 @@ public class OrderActivity extends AppCompatActivity {
                         }
                     });
 
+                    orderref.child("custid").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(!(dataSnapshot.getValue()==null))
+                                cid=dataSnapshot.getValue().toString();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                     orderref.child("orderid").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -183,6 +206,42 @@ public class OrderActivity extends AppCompatActivity {
                 }
             });
             dialogBuilder.show();
+        });
+
+
+        rest_ind_btn.setOnClickListener(e->{
+            database.child("restaurateur").child(rid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    latrest=dataSnapshot.child("0").getValue().toString();
+                    longrest=dataSnapshot.child("1").getValue().toString();
+                    Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latrest+","+longrest));
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        });
+
+        cust_ind_btn.setOnClickListener(e->{
+            database.child("customer").child(cid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    latcust=dataSnapshot.child("0").getValue().toString();
+                    longcust=dataSnapshot.child("1").getValue().toString();
+                    Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latcust+","+longcust));
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         });
 
     }

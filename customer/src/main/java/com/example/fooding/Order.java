@@ -14,6 +14,7 @@ public class Order implements Serializable, Comparable<Order> {
     private GregorianCalendar deliveryTime;
     private String price;
     private long priceL;
+    private String custId;
 
     public Order(){}
 
@@ -70,6 +71,14 @@ public class Order implements Serializable, Comparable<Order> {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
     }
 
     @Override

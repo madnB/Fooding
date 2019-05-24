@@ -50,7 +50,7 @@ public class BikerViewAdapter  extends RecyclerView.Adapter<BikerViewAdapter.Vie
         holder.bikerName.setText(biker.getName());
 
         holder.bikerWorkArea.setTypeface(robotoBold);
-        holder.bikerWorkArea.setText(biker.getWork_area());
+        holder.bikerWorkArea.setText(biker.getDist().toString()+" kms");
 
         holder.bikerWorkHours.setTypeface(robotoBold);
         holder.bikerWorkHours.setText(biker.getWork_hours());

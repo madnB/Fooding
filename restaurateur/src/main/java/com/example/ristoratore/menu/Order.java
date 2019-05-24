@@ -10,6 +10,7 @@ import java.util.List;
 public class Order implements Serializable, Comparable<Order> {
 
     private String orderId;
+    private String custId;
     private int status;
     private ArrayList<Dish> dishList;
     private String info;
@@ -94,6 +95,15 @@ public class Order implements Serializable, Comparable<Order> {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
+
 
     @Override
     public int compareTo(Order o) {
