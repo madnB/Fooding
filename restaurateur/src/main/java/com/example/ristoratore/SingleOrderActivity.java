@@ -32,6 +32,8 @@ public class SingleOrderActivity extends AppCompatActivity {
     private static final int CHECK_ITEM_REQ = 45;
     private static final int RESULT_STATUS_CHANGE = 46;
     private static final int BIKER_REQ = 47;
+    private static final int SINGLE_BIKER_REQ = 48;
+    private static final int RESULT_STATUS_ABORT = 49;
 
 
     private RecyclerView rView;
@@ -129,16 +131,19 @@ public class SingleOrderActivity extends AppCompatActivity {
 
         switch_status_btn.setOnClickListener(e -> {
             if(order.getStatus()==3){
-                Toast.makeText(SingleOrderActivity.this, "Order is already on delivery", Toast.LENGTH_SHORT).show();
-                return;
+                Intent intent = new Intent(getApplicationContext(), SingleBikerActivity.class);
+                intent.putExtra("order", order);
+                startActivityForResult(intent, SINGLE_BIKER_REQ);
             }
-            if(order.getStatus()==4){
+            else if(order.getStatus()==4){
                 Toast.makeText(SingleOrderActivity.this, "Order was already delivered", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Intent intent=new Intent(getApplicationContext(), BikerActivity.class);
-            intent.putExtra("order", order);
-            startActivityForResult(intent, BIKER_REQ);
+            else {
+                Intent intent = new Intent(getApplicationContext(), BikerActivity.class);
+                intent.putExtra("order", order);
+                startActivityForResult(intent, BIKER_REQ);
+            }
 
             /*final CharSequence[] items = { "New Order", "Cooking", "Ready","In Delivery"};
             AlertDialog.Builder builder = new AlertDialog.Builder(SingleOrderActivity.this);
@@ -282,6 +287,28 @@ public class SingleOrderActivity extends AppCompatActivity {
                     if(returned_order.getStatus()==3) {
                         orderStatus.setImageResource(R.mipmap.in_delivery);
                         order.setStatus(3);
+                        order.setBikerId(returned_order.getBikerId());
+                    }
+                }
+                break;
+            case SINGLE_BIKER_REQ:
+                if (resultCode == RESULT_STATUS_ABORT) {
+                    Order returned_order = (Order)data.getSerializableExtra("order");
+                    if(returned_order.getStatus()==0) {
+                        orderStatus.setImageResource(R.mipmap.new_order);
+                        order.setStatus(0);
+                        order.setBikerId(null);
+                    }
+                }
+                else if(resultCode == RESULT_STATUS_CHANGE){
+                    Order returned_order = (Order)data.getSerializableExtra("order");
+                    if(returned_order.getStatus()==0) {
+                        orderStatus.setImageResource(R.mipmap.new_order);
+                        order.setStatus(0);
+                        order.setBikerId(null);
+                        Intent intent = new Intent(getApplicationContext(), BikerActivity.class);
+                        intent.putExtra("order", order);
+                        startActivityForResult(intent, BIKER_REQ);
                     }
                 }
                 break;

@@ -28,6 +28,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".SingleBikerActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".BikerActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity"
