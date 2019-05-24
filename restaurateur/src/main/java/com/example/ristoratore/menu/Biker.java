@@ -6,13 +6,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Biker implements Serializable{
+public class Biker implements Serializable, Comparable<Biker>{
     private String name;
     private String work_hours;
     private String work_area;
     private transient ImageView photo;
     private String photoUri;
     private String uid;
+
+    public Double getDist() {
+        return dist;
+    }
+
+    public void setDist(Double dist) {
+        this.dist = dist;
+    }
+
+    private Double dist;
 
     public Biker(String name, String work_hours, String work_area, ImageView photo, String photoUri){
         this.name=name;
@@ -47,4 +57,9 @@ public class Biker implements Serializable{
     public ImageView getPhoto() { return photo; }
 
     public void setPhoto(ImageView photo) { this.photo = photo; }
+
+    @Override
+    public int compareTo(Biker o) {
+        return getDist().compareTo(o.getDist());
+    }
 }

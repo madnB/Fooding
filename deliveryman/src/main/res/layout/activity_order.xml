@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -80,5 +80,21 @@
             android:text="CONFIRM DELIVERY"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"/>
+
+        <Button
+            android:id="@+id/rest_indication_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GET INDICATION FOR RESTAURANT"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/cust_indication_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GET INDICATION FOR CUSTOMER"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 </ScrollView>

@@ -173,6 +173,7 @@ public class MenuActivity extends AppCompatActivity {
                     orderRef.child("status").setValue("0");
                     orderRef.child("info").setValue(notes_et.getText().toString());
                     orderRef.child("address").setValue(address_customer);
+                    orderRef.child("custId").setValue(uidcust);
                     @SuppressLint("SimpleDateFormat")
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm");
                     orderRef.child("deliveryTime").setValue(sdf.format(calendar.getTime()));
