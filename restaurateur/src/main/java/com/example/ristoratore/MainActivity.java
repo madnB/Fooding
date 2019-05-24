@@ -248,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
         if(title.equals("SIGN OUT")) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(this, "User signed out.",
                     Toast.LENGTH_SHORT).show();
