@@ -81,6 +81,7 @@ public class SignupActivity extends AppCompatActivity {
                         database.child("biker").child(uid).child("status").setValue("True");
                         Toast.makeText(SignupActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
+                        startService(new Intent(SignupActivity.this, LocationService.class).putExtra("databaseurl", FirebaseDatabase.getInstance().getReference().child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").toString()));
                         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
                         finish();
                     } else {
