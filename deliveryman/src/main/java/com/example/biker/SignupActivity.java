@@ -80,6 +80,7 @@ public class SignupActivity extends AppCompatActivity {
                         database.child("biker").child(uid).child("status").setValue("True");
                         Toast.makeText(SignupActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
+                        startService(new Intent(SignupActivity.this, LocationService.class).putExtra("databaseurl", FirebaseDatabase.getInstance().getReference().child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").toString()));
                     } else {
                         // If sign in fails, display a message to the user.
                         //Log.w(TAG, "createUserWithEmail:failure", task.getException());

@@ -7,6 +7,9 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -34,6 +37,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -379,6 +384,36 @@ public class EditActivity extends AppCompatActivity {
             database.child("restaurateur").child(uid).child("address").setValue(addr_et.getText().toString());
             database.child("restaurateur").child(uid).child("info").setValue(info_et.getText().toString());
             database.child("restaurateur").child(uid).child("name").setValue(name_et.getText().toString());
+
+            Geocoder coder = new Geocoder(this);
+            List<Address> address;
+
+            try {
+                address=coder.getFromLocationName(addr_et.getText().toString(), 5);
+                if (address!=null) {
+                    Address add=address.get(0);
+                    DatabaseReference ref=database.child("restaurateur").child(uid).child("location");
+                    GeoFire mGeoFire=new GeoFire(ref);
+                    mGeoFire.setLocation(
+                            "KEY",
+                            new GeoLocation(add.getLatitude(), add.getLongitude()),new
+                                    GeoFire.CompletionListener(){
+                                        @Override
+                                        public void onComplete(String key, DatabaseError error) {
+                                            //Do some stuff if you want to
+                                            Log.e("EditActivity", "onLocationChanged - in Firebase onComplete: "+error );
+
+                                        }
+                                    });
+                }
+                else{
+                    Toast.makeText(EditActivity.this, "Address not found!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
 
             database.child("types").child(tmp).child(uid).removeValue();
             database.child("restaurateur").child(uid).child("type").setValue(spinner.getSelectedItem().toString());

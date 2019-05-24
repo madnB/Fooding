@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -26,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,6 +57,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -321,6 +326,35 @@ public class EditActivity extends AppCompatActivity {
             database.child("customer").child(uid).child("cardnum").setValue(card_et.getText().toString());
             database.child("customer").child(uid).child("info").setValue(info_et.getText().toString());
             database.child("customer").child(uid).child("name").setValue(name_et.getText().toString());
+
+            Geocoder coder = new Geocoder(this);
+            List<Address> address;
+
+            try {
+                address=coder.getFromLocationName(addr_et.getText().toString(), 5);
+                if (address!=null) {
+                    Address add=address.get(0);
+                    DatabaseReference ref=database.child("customer").child(uid).child("location");
+                    GeoFire mGeoFire=new GeoFire(ref);
+                    mGeoFire.setLocation(
+                            "KEY",
+                            new GeoLocation(add.getLatitude(), add.getLongitude()),new
+                                    GeoFire.CompletionListener(){
+                                        @Override
+                                        public void onComplete(String key, DatabaseError error) {
+                                            //Do some stuff if you want to
+                                            Log.e("EditActivity", "onLocationChanged - in Firebase onComplete: "+error );
+
+                                        }
+                                    });
+                }
+                else{
+                    Toast.makeText(EditActivity.this, "Address not found!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 
             if (selectedImage != null){
             AssetFileDescriptor afd = null;

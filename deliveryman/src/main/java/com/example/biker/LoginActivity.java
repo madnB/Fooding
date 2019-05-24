@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //FirebaseUser user = mAuth.getCurrentUser();
                                 Toast.makeText(LoginActivity.this, "Authentication successful.",
                                         Toast.LENGTH_SHORT).show();
+                                startService(new Intent(LoginActivity.this, LocationService.class).putExtra("databaseurl", FirebaseDatabase.getInstance().getReference().child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").toString()));
                             } else {
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();

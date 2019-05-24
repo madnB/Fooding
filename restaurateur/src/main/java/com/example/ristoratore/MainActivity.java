@@ -69,11 +69,21 @@ public class MainActivity extends AppCompatActivity {
         orders_btn = findViewById(R.id.order_main_btn);
 
         orders_btn.setOnClickListener(e -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
                 Intent i = new Intent(this, OrderActivity.class);
                 startActivity(i);
         });
 
         dailyoffer_btn.setOnClickListener(v -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
                 Intent i = new Intent(this, DailyOfferActivity.class);
                 startActivity(i);
         });
@@ -141,11 +151,21 @@ public class MainActivity extends AppCompatActivity {
         orders_btn = findViewById(R.id.order_main_btn);
 
         orders_btn.setOnClickListener(e -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent i = new Intent(this, OrderActivity.class);
             startActivity(i);
         });
 
         dailyoffer_btn.setOnClickListener(v -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent i = new Intent(this, DailyOfferActivity.class);
             startActivity(i);
         });
