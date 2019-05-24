@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,8 @@ public class SignupActivity extends AppCompatActivity {
                         database.child("biker").child(uid).child("status").setValue("True");
                         Toast.makeText(SignupActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
+                        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        finish();
                     } else {
                         // If sign in fails, display a message to the user.
                         //Log.w(TAG, "createUserWithEmail:failure", task.getException());

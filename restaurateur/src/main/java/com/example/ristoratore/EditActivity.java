@@ -380,7 +380,9 @@ public class EditActivity extends AppCompatActivity {
             database.child("restaurateur").child(uid).child("info").setValue(info_et.getText().toString());
             database.child("restaurateur").child(uid).child("name").setValue(name_et.getText().toString());
 
-            database.child("types").child(tmp).child(uid).removeValue();
+            if (tmp != null) {
+                database.child("types").child(tmp).child(uid).removeValue();
+            }
             database.child("restaurateur").child(uid).child("type").setValue(spinner.getSelectedItem().toString());
             database.child("types").child(spinner.getSelectedItem().toString()).child(uid).setValue("true");
 

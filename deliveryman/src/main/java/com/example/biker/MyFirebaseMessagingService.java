@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
+import static android.app.Notification.VISIBILITY_PUBLIC;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Called when message is received.
@@ -47,7 +49,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, OrderActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -58,24 +60,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent)
                 .setContentInfo(notification.getTitle())
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setLargeIcon(icon)
                 .setColor(Color.RED)
                 .setLights(Color.RED, 1000, 300)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setSmallIcon(R.mipmap.ic_launcher);
-
-        try {
-            String picture_url = data.get("picture_url");
-            if (picture_url != null && !"".equals(picture_url)) {
-                URL url = new URL(picture_url);
-                Bitmap bigPicture = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                notificationBuilder.setStyle(
-                        new NotificationCompat.BigPictureStyle().bigPicture(bigPicture).setSummaryText(notification.getBody())
-                );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

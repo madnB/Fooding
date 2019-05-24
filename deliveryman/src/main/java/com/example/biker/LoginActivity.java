@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -78,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                                 //FirebaseUser user = mAuth.getCurrentUser();
                                 Toast.makeText(LoginActivity.this, "Authentication successful.",
                                         Toast.LENGTH_SHORT).show();
+                                FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
