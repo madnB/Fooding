@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -82,6 +83,8 @@ public class SignupActivity extends AppCompatActivity {
                         database.child("restaurateur").child(uid).setValue("R");
                         Toast.makeText(SignupActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
+                        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        finish();
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(SignupActivity.this, "Authentication failed.",

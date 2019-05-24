@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView name_tv;
     private DrawerLayout mDrawerLayout;
     private NavigationView nv;
+    private ImageButton search_btn;
     ActionBarDrawerToggle abdToggle;
     private StorageReference photoref;
 
@@ -58,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_drawer);
 
         //preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        search_btn = findViewById(R.id.search_btn);
+
+        search_btn.setOnClickListener(e -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent i = new Intent(this, BrowseActivity.class);
+            startActivity(i);
+        });
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         nv = findViewById(R.id.nav_view);
@@ -114,6 +127,18 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         setContentView(R.layout.activity_main_drawer);
         //preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        search_btn = findViewById(R.id.search_btn);
+
+        search_btn.setOnClickListener(e -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent i = new Intent(this, BrowseActivity.class);
+            startActivity(i);
+        });
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         nv = findViewById(R.id.nav_view);

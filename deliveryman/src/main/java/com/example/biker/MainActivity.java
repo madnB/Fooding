@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -60,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_drawer);
 
         //preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        }
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         nv = findViewById(R.id.nav_view);
@@ -237,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
         if(title.equals("SIGN OUT")) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(this, "User signed out.",
                     Toast.LENGTH_SHORT).show();

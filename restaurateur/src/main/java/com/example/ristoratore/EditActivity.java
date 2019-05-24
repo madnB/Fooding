@@ -414,6 +414,10 @@ public class EditActivity extends AppCompatActivity {
                 e1.printStackTrace();
             }
 
+            if (tmp != null) {
+                database.child("types").child(tmp).child(uid).removeValue();
+            }
+
 
             database.child("types").child(tmp).child(uid).removeValue();
             database.child("restaurateur").child(uid).child("type").setValue(spinner.getSelectedItem().toString());
