@@ -25,4 +25,5 @@
         <item>Burgers</item>
         <item>Indian</item>
     </string-array>
+    <string name="no_rest">Can\'t find restaurants that match selection</string>
 </resources>
