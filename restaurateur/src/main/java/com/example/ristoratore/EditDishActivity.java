@@ -444,6 +444,7 @@ public class EditDishActivity extends AppCompatActivity {
                 }
 
 
+                database.child("restaurateur").child(uid).child("stats").child("food").child(name1).setValue("0");
                 database.child("restaurateur").child(uid).child("menu").child(name1).child("price").setValue(price);
                 database.child("restaurateur").child(uid).child("menu").child(name1).child("description").setValue(description);
                 database.child("restaurateur").child(uid).child("menu").child(name1).child("quantity").setValue(qty);
