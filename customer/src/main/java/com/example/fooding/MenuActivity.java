@@ -200,6 +200,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
         DatabaseReference orderRef=myRef.child("restaurateur").child(uid).child("orders").push();
+        DatabaseReference currOrderRef=myRef.child("customer").child(uidcust).child("currentOrder");
         order=new Order(orderRef.getKey(), 0, new ArrayList<Dish>(), null, null, null, null, (long) 0);
         FloatingActionButton order_btn = findViewById(R.id.order_btn);
 
@@ -218,13 +219,19 @@ public class MenuActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     Calendar calendar=new GregorianCalendar(date_picker.getYear(), date_picker.getMonth(), date_picker.getDayOfMonth(), time_picker.getCurrentHour(), time_picker.getCurrentMinute());
                     orderRef.child("status").setValue("0");
+                    currOrderRef.child("status").setValue("0");
                     orderRef.child("info").setValue(notes_et.getText().toString());
+                    currOrderRef.child("info").setValue(notes_et.getText().toString());
                     orderRef.child("address").setValue(address_customer);
+                    currOrderRef.child("address").setValue(address_customer);
                     orderRef.child("custId").setValue(uidcust);
+                    currOrderRef.child("custId").setValue(uidcust);
                     @SuppressLint("SimpleDateFormat")
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm");
                     orderRef.child("deliveryTime").setValue(sdf.format(calendar.getTime()));
+                    currOrderRef.child("deliveryTime").setValue(sdf.format(calendar.getTime()));
                     orderRef.child("priceL").setValue(total_tv.getText().toString());
+                    currOrderRef.child("priceL").setValue(total_tv.getText().toString());
                     for(Dish dish : order.dishList){
                         orderRef.child("dishes").child(dish.getName()).setValue(dish.getQtySel());
                     }

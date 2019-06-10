@@ -198,6 +198,7 @@ public class OrderActivity extends AppCompatActivity {
                 if (choices[choice].equals("Yes")) {
                     database.child("biker").child(uid).child("status").setValue("True");
                     database.child("restaurateur").child(rid).child("orders").child(oid).child("status").setValue("4");
+                    database.child("customer").child(cid).child("currentOrder").child("status").setValue("4");
                     database.child("biker").child(uid).child("currentOrder").removeValue();
                     Toast.makeText(OrderActivity.this, "Delivery successful!", Toast.LENGTH_SHORT).show();
                     finish();

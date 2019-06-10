@@ -28,6 +28,8 @@
         <activity android:name=".SignupActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity"
+        android:screenOrientation="portrait"/>
+        <activity android:name=".CurrentOrderActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".MenuActivity"
             android:screenOrientation="portrait"/>

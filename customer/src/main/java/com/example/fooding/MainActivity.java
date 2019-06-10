@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton search_btn;
     ActionBarDrawerToggle abdToggle;
     private StorageReference photoref;
+    private DatabaseReference database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         //preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         search_btn = findViewById(R.id.search_btn);
+
+        database= FirebaseDatabase.getInstance().getReference();
 
         search_btn.setOnClickListener(e -> {
             if(FirebaseAuth.getInstance().getCurrentUser()==null){
@@ -129,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         //preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         search_btn = findViewById(R.id.search_btn);
+
+        database= FirebaseDatabase.getInstance().getReference();
 
         search_btn.setOnClickListener(e -> {
             if(FirebaseAuth.getInstance().getCurrentUser()==null){
@@ -219,8 +224,22 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
-            startActivity(i);
+            database.child("customer").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child("currentOrder").child("status").getValue()==null){
+                            Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
+                            startActivity(i);
+                        }
+                        else{
+                            Intent i= new Intent(getApplicationContext(), CurrentOrderActivity.class);
+                            startActivity(i);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+            });
 
         }
         if (title.equals("SIGN UP")) {

@@ -98,6 +98,8 @@ public class OrderActivity extends AppCompatActivity implements OrderViewAdapter
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
 
                     Order fire = new Order();
+                    if(Integer.parseInt(dataSnapshot1.child("status").getValue().toString())==4)
+                        continue;
                     fire.setOrderId(dataSnapshot1.getKey());
                     fire.setPrice(dataSnapshot1.child("priceL").getValue().toString());
                     fire.setAddress(dataSnapshot1.child("address").getValue().toString());
