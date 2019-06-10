@@ -32,6 +32,16 @@
             android:text="da ciccio"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textColor="@android:color/secondary_text_light" />
+
+        <ToggleButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/myToggleButton"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textOn=""
+            android:textOff=""/>
+
     </RelativeLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"

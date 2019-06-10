@@ -36,6 +36,7 @@ import java.util.Objects;
 public class BikerActivity extends AppCompatActivity implements BikerViewAdapter.ItemClickListener{
     private static final int RESULT_STATUS_CHANGE = 46;
     private RecyclerView rView;
+    private TextView emptyView;
     private BikerViewAdapter adapter;
     private RecyclerView.LayoutManager rLayoutManager;
     @SuppressLint("SimpleDateFormat")
@@ -97,6 +98,7 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
 
             }
         });
+        emptyView = (TextView) findViewById(R.id.empty_view);
         loadData();
     }
 
@@ -140,6 +142,14 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
         adapter= new BikerViewAdapter(this, bikers);
         adapter.setClickListener(this);
         rView.setAdapter(adapter);
+        if (bikers.isEmpty()) {
+            rView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            emptyView.setVisibility(View.GONE);
+            rView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

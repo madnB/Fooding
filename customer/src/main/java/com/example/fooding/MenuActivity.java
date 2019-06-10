@@ -10,18 +10,21 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +56,7 @@ public class MenuActivity extends AppCompatActivity {
     private ImageView restaurantPhoto;
     public float total;
     private TextView total_tv;
+    private ToggleButton toggleButton;
 
     private Order order;
     private String address_customer;
@@ -89,6 +93,49 @@ public class MenuActivity extends AppCompatActivity {
 
         uidcust=FirebaseAuth.getInstance().getCurrentUser().getUid();
         uid=restaurant.getUid();
+
+        toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
+        myRef.child("customer").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("favourites").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!(dataSnapshot.getValue()==null)){
+                    if(dataSnapshot.getValue().toString().equals("true")){
+                        toggleButton.setChecked(true);
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.full_star));
+                    }
+                    else {
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.empty_star));
+                        toggleButton.setChecked(false);
+                    }
+                }
+                else {
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.empty_star));
+                    toggleButton.setChecked(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.full_star));
+                    myRef.child("customer").child(uidcust).child("favourites").child(uid).setValue("true");
+                }
+                else {
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.empty_star));
+                    myRef.child("customer").child(uidcust).child("favourites").child(uid).removeValue();
+                }
+
+            }
+        });
+
+
         name.setText(restaurant.getName());
 
         myRef.child("customer").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("address").addListenerForSingleValueEvent(new ValueEventListener() {

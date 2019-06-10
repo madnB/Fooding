@@ -23,6 +23,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".BrowseActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".FavActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".SignupActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity"

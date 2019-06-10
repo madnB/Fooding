@@ -3,21 +3,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:text="@string/choose_biker"/>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:background="@color/backgroundRecView"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/biker_rView"
+            android:id="@+id/restaurant_rView"
             android:paddingStart="4dp"
             android:paddingEnd="0dp"
             android:layout_width="match_parent"
@@ -30,7 +25,7 @@
             android:gravity="center"
             android:visibility="gone"
             android:textSize="15dp"
-            android:text="@string/no_biker" />
+            android:text="@string/no_rest" />
 
     </FrameLayout>
 </LinearLayout>

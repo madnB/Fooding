@@ -43,4 +43,5 @@
         <item>Burgers</item>
         <item>Indian</item>
     </string-array>
+    <string name="no_biker">No bikers available for delivery</string>
 </resources>

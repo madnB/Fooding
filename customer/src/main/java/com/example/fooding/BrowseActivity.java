@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
     DatabaseReference myRef ;
     List<Restaurant> list = new ArrayList<>();
     RecyclerView recycle;
+    TextView emptyView;
+    Button fav_btn;
     BrowseAdapter adapter;
     private RecyclerView.LayoutManager rLayoutManager;
 
@@ -47,6 +50,8 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
         getSupportActionBar().setHomeButtonEnabled(true);
 
         recycle = (RecyclerView) findViewById(R.id.restaurant_rView);
+        emptyView = (TextView) findViewById(R.id.empty_view);
+        fav_btn = findViewById(R.id.fav_btn);
         rLayoutManager = new LinearLayoutManager(BrowseActivity.this);
         recycle.setLayoutManager(rLayoutManager);
         adapter = new BrowseAdapter(BrowseActivity.this, list);
@@ -54,6 +59,11 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
         recycle.setAdapter(adapter);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+
+        fav_btn.setOnClickListener(e -> {
+            Intent i = new Intent(this, FavActivity.class);
+            startActivity(i);
+        });
 
         Spinner spinner = (Spinner) findViewById(R.id.type_et);
         String[] types = getResources().getStringArray(R.array.food_types);
@@ -112,6 +122,14 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
+                            if (dataSnapshot.getChildrenCount() == 0) {
+                                recycle.setVisibility(View.GONE);
+                                emptyView.setVisibility(View.VISIBLE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recycle.setVisibility(View.VISIBLE);
+                            }
                             for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
                                 Restaurant fire = new Restaurant();
                                 fire.setUid(dataSnapshot1.getKey());
@@ -123,6 +141,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                                         fire.setType(dataSnapshot.child("type").getValue().toString());
                                         list.add(fire);
                                         adapter.notifyItemInserted(list.size()-1);
+
                                     }
 
                                     @Override
@@ -142,14 +161,20 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                             Log.w("Hello", "Failed to read value.", error.toException());
                         }
                     });
+
+
                 }
+
+
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
 
 
     }
