@@ -44,7 +44,7 @@
         android:layout_below="@+id/distance_tv"
         android:layout_marginTop="25dp"
         android:layout_toEndOf="@+id/photo_iv"
-        android:text="Accept" />
+        android:text="New" />
 
     <Button
         android:id="@+id/review_btn"

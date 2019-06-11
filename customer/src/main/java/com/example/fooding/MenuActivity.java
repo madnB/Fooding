@@ -232,13 +232,16 @@ public class MenuActivity extends AppCompatActivity {
                     currOrderRef.child("deliveryTime").setValue(sdf.format(calendar.getTime()));
                     orderRef.child("priceL").setValue(total_tv.getText().toString());
                     currOrderRef.child("priceL").setValue(total_tv.getText().toString());
+                    currOrderRef.child("rid").setValue(uid);
                     for(Dish dish : order.dishList){
                         orderRef.child("dishes").child(dish.getName()).setValue(dish.getQtySel());
                     }
                     alertDialog.dismiss();
                     Toast.makeText(MenuActivity.this, "Order sent!",
                             Toast.LENGTH_SHORT).show();
-                    finish();
+                    Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                 }
             });
 
