@@ -2,13 +2,14 @@ package com.example.fooding;
 
 import java.io.Serializable;
 
-public class Restaurant implements Serializable {
+public class Restaurant implements Serializable, Comparable<Restaurant> {
 
     public String name;
     public String type;
     public String photoUrl;
     public String uid;
     public String uri;
+    public String rating;
 
     public Restaurant() {};
 
@@ -44,10 +45,18 @@ public class Restaurant implements Serializable {
         this.name = name;
     }
 
-    public void setUri(String uri) {this.uri=uri;
-    }
+    public void setUri(String uri) { this.uri = uri; }
 
     public String getUri() {
         return uri;
+    }
+
+    public void setRating(String rating) { this.rating = rating; }
+
+    public String getRating() { return rating; }
+
+    @Override
+    public int compareTo(Restaurant o) {
+        return getRating().compareTo(o.getRating());
     }
 }

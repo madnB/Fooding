@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +53,15 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
         holder.restType.setTypeface(robotoBold);
         holder.restType.setText(restaurant.getType());
 
+        if(restaurant.getRating()!=null) {
+            holder.rateBar.setRating(Float.parseFloat(restaurant.getRating()));
+        }
+        else {
+            holder.rateBar.setRating(0);
+        }
+
+
+
         StorageReference photoRef= FirebaseStorage.getInstance().getReference().child(restaurant.getUri());
         photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -79,12 +89,14 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 
         TextView restName;
         TextView restType;
+        RatingBar rateBar;
         CircleImageView photores;
 
         ViewHolder(View itemView) {
             super(itemView);
             restName = itemView.findViewById(R.id.name_tv);
             restType = itemView.findViewById(R.id.type_tv);
+            rateBar = itemView.findViewById(R.id.rate_rb);
             itemView.setOnClickListener(this);
             photores=itemView.findViewById((R.id.photo_iv));
         }

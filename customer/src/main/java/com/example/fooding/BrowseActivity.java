@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,11 +54,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
         recycle = (RecyclerView) findViewById(R.id.restaurant_rView);
         emptyView = (TextView) findViewById(R.id.empty_view);
         fav_btn = findViewById(R.id.fav_btn);
-        rLayoutManager = new LinearLayoutManager(BrowseActivity.this);
-        recycle.setLayoutManager(rLayoutManager);
-        adapter = new BrowseAdapter(BrowseActivity.this, list);
-        adapter.setClickListener(BrowseActivity.this);
-        recycle.setAdapter(adapter);
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
@@ -115,21 +113,13 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                             .show();
 
                     list.clear();
-                    adapter.notifyDataSetChanged();
 
                     myRef.child("types").child(selectedItemText).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
-                            if (dataSnapshot.getChildrenCount() == 0) {
-                                recycle.setVisibility(View.GONE);
-                                emptyView.setVisibility(View.VISIBLE);
-                            }
-                            else {
-                                emptyView.setVisibility(View.GONE);
-                                recycle.setVisibility(View.VISIBLE);
-                            }
+
                             for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
                                 Restaurant fire = new Restaurant();
                                 fire.setUid(dataSnapshot1.getKey());
@@ -139,8 +129,44 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         fire.setName(dataSnapshot.child("name").getValue().toString());
                                         fire.setType(dataSnapshot.child("type").getValue().toString());
-                                        list.add(fire);
-                                        adapter.notifyItemInserted(list.size()-1);
+                                        myRef.child("reviews").child(fire.getUid()).child("media").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                                                if(dataSnapshot2.getValue() != null) {
+                                                    fire.setRating(dataSnapshot2.getValue().toString());
+                                                }
+                                                else {
+                                                    fire.setRating("0");
+                                                }
+
+                                                list.add(fire);
+                                                Collections.sort(list, Collections.reverseOrder());
+
+                                                rLayoutManager = new LinearLayoutManager(BrowseActivity.this);
+                                                recycle.setLayoutManager(rLayoutManager);
+                                                adapter = new BrowseAdapter(BrowseActivity.this, list);
+                                                adapter.setClickListener(BrowseActivity.this);
+                                                recycle.setAdapter(adapter);
+
+                                                if (list.isEmpty()) {
+                                                    recycle.setVisibility(View.GONE);
+                                                    emptyView.setVisibility(View.VISIBLE);
+                                                }
+                                                else {
+                                                    emptyView.setVisibility(View.GONE);
+                                                    recycle.setVisibility(View.VISIBLE);
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
+
 
                                     }
 
@@ -149,7 +175,10 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
 
                                     }
                                 });
+
                             }
+
+
 
 
 
