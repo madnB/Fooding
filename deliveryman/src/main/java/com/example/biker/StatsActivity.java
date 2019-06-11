@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,7 +62,7 @@ public class StatsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!(dataSnapshot.getValue()==null))
-                    km_traveled_tv.setText(dataSnapshot.getValue().toString()+" kilometers traveled");
+                    km_traveled_tv.setText(dataSnapshot.getValue().toString()+" km");
             }
 
             @Override
@@ -83,5 +84,11 @@ public class StatsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        finish();
+        return true;
     }
 }

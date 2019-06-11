@@ -5,45 +5,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_border"
         android:orientation="horizontal"
         android:padding="12dp">
 
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/photo_iv"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_weight = "0"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp" />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/photo_iv"
+            android:layout_marginTop="4dp"
+            android:layout_weight = "1"
             android:gravity="start"
             android:text="da ciccio"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textColor="@android:color/secondary_text_light" />
 
-        <ToggleButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/myToggleButton"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:textOn=""
-            android:textOff=""/>
 
-    </RelativeLayout>
+
+        <ToggleButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/myToggleButton"
+            android:layout_weight = "0"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:textOn=""
+        android:textOff=""/>
+
+    </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

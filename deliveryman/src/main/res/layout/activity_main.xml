@@ -4,28 +4,26 @@
     android:id="@+id/rootRL"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/customer_background">
 
-    <ImageView
-        android:id="@+id/biker_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/biker_background" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_centerInParent="true">
 
 
-    <TextView
-        android:id="@+id/alert_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You are currently delivering an order. \n Cannot change status to available "
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        <TextView
+            android:id="@+id/alert_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:text="You are currently delivering an order. \n Cannot change status to available "
+            android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

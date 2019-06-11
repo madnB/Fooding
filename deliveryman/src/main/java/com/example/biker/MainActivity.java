@@ -62,12 +62,17 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main_drawer);
 
+        toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
+        alert_tv = findViewById(R.id.alert_text);
+
+
         //preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
             FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         }
+
 
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
@@ -89,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
         if(preferences.contains(EditActivity.NAME_PREFS))
             name_tv.setText(preferences.getString(NAME_PREFS, "")); */
 
-        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             avatar.setImageResource(R.mipmap.iconmonstr_256);
+        }
         else{
             photoref= FirebaseStorage.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/photo.jpg");
             photoref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -122,12 +128,11 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(abdToggle);
         abdToggle.syncState();
 
-        alert_tv = findViewById(R.id.alert_text);
 
-        toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
-        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     if(dataSnapshot.getValue().toString().equals("True")){
                         toggleButton.setChecked(true);
@@ -138,43 +143,44 @@ public class MainActivity extends AppCompatActivity {
                         toggleButton.setChecked(false);
                     }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("currentOrder").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    toggleButton.setEnabled(false);
-                }
-                else toggleButton.setEnabled(true);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.biker_available));
-                    myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("True");
-                }
-                else {
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_unavailable));
-                    myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("False");
                 }
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("currentOrder").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        toggleButton.setEnabled(false);
+                    }
+                    else toggleButton.setEnabled(true);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.biker_available));
+                        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("True");
+                    }
+                    else {
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_unavailable));
+                        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("False");
+                    }
+
+                }
+            });
+        }
 
 
     }
@@ -202,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
         if(preferences.contains(EditActivity.NAME_PREFS))
             name_tv.setText(preferences.getString(NAME_PREFS, "")); */
 
-        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             avatar.setImageResource(R.mipmap.iconmonstr_256);
+        }
         else{
             photoref= FirebaseStorage.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/photo.jpg");
             photoref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -233,68 +240,66 @@ public class MainActivity extends AppCompatActivity {
         abdToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {};        mDrawerLayout.addDrawerListener(abdToggle);
         abdToggle.syncState();
 
-        alert_tv = findViewById(R.id.alert_text);
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
 
-        toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
-        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
+            alert_tv = findViewById(R.id.alert_text);
+            myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getValue().toString().equals("True")){
-                    toggleButton.setChecked(true);
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.biker_available));
-                }
-                else {
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_unavailable));
-                    toggleButton.setChecked(false);
-                }
+                    if (dataSnapshot.getValue().toString().equals("True")) {
+                        toggleButton.setChecked(true);
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_available));
+                    } else {
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_unavailable));
+                        toggleButton.setChecked(false);
+                    }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("currentOrder").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    toggleButton.setEnabled(false);
-                }
-                else toggleButton.setEnabled(true);
-
-                if (toggleButton.isEnabled()) {
-                    alert_tv.setVisibility(View.GONE);
-                }
-                else {
-                    alert_tv.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.biker_available));
-                    myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("True");
-                }
-                else {
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_unavailable));
-                    myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("False");
                 }
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("currentOrder").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        toggleButton.setEnabled(false);
+                    } else toggleButton.setEnabled(true);
+
+                    if (toggleButton.isEnabled()) {
+                        alert_tv.setVisibility(View.GONE);
+                    } else {
+                        alert_tv.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_available));
+                        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("True");
+                    } else {
+                        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.biker_unavailable));
+                        myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").setValue("False");
+                    }
+
+                }
+            });
+
+        }
 
     }
 
