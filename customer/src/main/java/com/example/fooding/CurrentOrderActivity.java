@@ -1,12 +1,17 @@
 package com.example.fooding;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +33,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
     private StorageReference photoref;
     private ImageView photo_iv;
     private String uid;
+    private String rid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
                 name_tv.setText(dataSnapshot.child("address").getValue().toString());
                 distance_tv.setText(dataSnapshot.child("deliveryTime").getValue().toString());
                 int status=Integer.parseInt(dataSnapshot.child("status").getValue().toString());
+                rid=dataSnapshot.child("rid").getValue().toString();
                 switch(status){
                         case 0:
                             photo_iv.setImageResource(R.mipmap.new_order);
@@ -76,6 +83,75 @@ public class CurrentOrderActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+        });
+
+        accept_btn.setOnClickListener(e->{
+            final CharSequence[] choices = { "Yes", "No"};
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CurrentOrderActivity.this);
+            dialogBuilder.setTitle("Leave no review for restaurant?");
+            dialogBuilder.setItems(choices, (dial, choice) -> {
+                if (choices[choice].equals("Yes")) {
+                    database.child("customer").child(uid).child("currentOrder").removeValue();
+                    Toast.makeText(CurrentOrderActivity.this, "Delivery accepted!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else if (choices[choice].equals("No")) {
+                    dial.dismiss();
+                }
+            });
+            dialogBuilder.show();
+        });
+
+        review_btn.setOnClickListener(view->{
+            view=getLayoutInflater().inflate(R.layout.dialog_review, null);
+            AlertDialog alertDialog = new AlertDialog.Builder(CurrentOrderActivity.this).create();
+            alertDialog.setTitle("Leave a review");
+
+            final EditText text_et=view.findViewById(R.id.text_et);
+            final RatingBar rate_rb=view.findViewById(R.id.rate_rb);
+
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SEND", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DatabaseReference dr=database.child("reviews").child(rid).push();
+                    dr.child("rate").setValue(Float.toString(rate_rb.getRating()));
+                    dr.child("comment").setValue(text_et.getText().toString());
+                    database.child("reviews").child(rid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            float numreviews=((float)dataSnapshot.getChildrenCount())-1;
+                            float tot=0;
+                            for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                                if(dataSnapshot1.getKey()!="media"){
+                                    if(dataSnapshot1.child("rate").getValue()==null)
+                                        continue;
+                                    tot+=Float.parseFloat(dataSnapshot1.child("rate").getValue().toString());
+                                }
+                            }
+                            float avg=tot/numreviews;
+                            database.child("reviews").child(rid).child("media").setValue(Float.toString(avg));
+                            database.child("customer").child(uid).child("currentOrder").removeValue();
+                            Toast.makeText(CurrentOrderActivity.this, "Review sent!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            });
+
+
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            alertDialog.setView(view);
+            alertDialog.show();
         });
     }
 
