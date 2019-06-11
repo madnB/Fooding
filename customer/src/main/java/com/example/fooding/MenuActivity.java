@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -32,6 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -235,7 +238,161 @@ public class MenuActivity extends AppCompatActivity {
                     currOrderRef.child("rid").setValue(uid);
                     for(Dish dish : order.dishList){
                         orderRef.child("dishes").child(dish.getName()).setValue(dish.getQtySel());
+                        myRef.child("restaurateur").child(uid).child("stats").child("food").child(dish.getName()).runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(dish.getQtySel());
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + dish.getQtySel());
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+
                     }
+
+                    int currentHourIn24Format = calendar.get(Calendar.HOUR_OF_DAY);
+                    if (currentHourIn24Format<11 && currentHourIn24Format>6) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("07-11").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+                    else if (currentHourIn24Format<13 && currentHourIn24Format>10) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("11-13").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+                    else if (currentHourIn24Format<15 && currentHourIn24Format>12) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("13-15").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+                    else if (currentHourIn24Format<19 && currentHourIn24Format>14) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("15-19").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+                    else if (currentHourIn24Format<21 && currentHourIn24Format>18) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("19-21").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+                    else if (currentHourIn24Format<23 && currentHourIn24Format>20) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("21-23").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+                    else if (currentHourIn24Format<7 || currentHourIn24Format>22) {
+                        myRef.child("restaurateur").child(uid).child("stats").child("time").child("23-07").runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                if(mutableData.getValue() == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    mutableData.setValue((Long) mutableData.getValue() + 1);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                            }
+                        });
+                    }
+
                     alertDialog.dismiss();
                     Toast.makeText(MenuActivity.this, "Order sent!",
                             Toast.LENGTH_SHORT).show();

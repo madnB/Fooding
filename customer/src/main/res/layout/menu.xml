@@ -39,6 +39,7 @@
             android:id="@+id/myToggleButton"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
             android:textOn=""
             android:textOff=""/>
 

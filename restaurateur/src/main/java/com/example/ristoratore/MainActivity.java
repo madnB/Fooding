@@ -249,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), DailyOfferActivity.class);
             startActivity(i);
         }
-
         else if(title.equals("ORDERS")){
             if(FirebaseAuth.getInstance().getCurrentUser()==null){
                 Toast.makeText(this, "Error: user not signed in.",
@@ -257,6 +256,15 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             Intent i = new Intent(getApplicationContext(), OrderActivity.class);
+            startActivity(i);
+        }
+        else if(title.equals("STATS")){
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                Toast.makeText(this, "Error: user not signed in.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent i = new Intent(getApplicationContext(), StatsActivity.class);
             startActivity(i);
         }
         if(title.equals("SIGN UP")) {

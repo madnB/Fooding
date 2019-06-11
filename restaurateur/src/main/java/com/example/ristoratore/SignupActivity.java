@@ -84,6 +84,7 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(SignupActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
                         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        database.child("reviews").child(uid).child("media").setValue("0");
                         finish();
                     } else {
                         // If sign in fails, display a message to the user.

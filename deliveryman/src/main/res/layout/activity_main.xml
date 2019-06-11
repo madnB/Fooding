@@ -6,20 +6,43 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <ImageView
+        android:id="@+id/biker_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/biker_background" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="@color/backgroundRecView">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
-        <ImageView
-            android:id="@+id/biker_image"
+
+    <TextView
+        android:id="@+id/alert_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You are currently delivering an order. \n Cannot change status to available "
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/biker_background" />
+            android:layout_gravity="center_horizontal">
+
+            <ToggleButton
+                android:id="@+id/myToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textOff=""
+                android:textOn="" />
+
+        </RelativeLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -100,6 +100,7 @@ public class FavActivity extends AppCompatActivity implements BrowseAdapter.Item
         String uid=currentUser.getUid();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+        list.clear();
 
         myRef.child("customer").child(uid).child("favourites").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

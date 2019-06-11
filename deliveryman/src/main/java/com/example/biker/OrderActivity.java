@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -17,8 +18,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class OrderActivity extends AppCompatActivity {
@@ -60,8 +64,11 @@ public class OrderActivity extends AppCompatActivity {
         info_tv=findViewById(R.id.info_text);
         confirm_btn=findViewById(R.id.confirm_btn);
         rest_ind_btn=findViewById(R.id.rest_indication_btn);
+        rest_ind_btn.setEnabled(false);
         cust_ind_btn=findViewById(R.id.cust_indication_btn);
+        cust_ind_btn.setEnabled(false);
         String uid=currentUser.getUid();
+
         database.child("biker").child(uid).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -146,6 +153,20 @@ public class OrderActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(!(dataSnapshot.getValue()==null))
                                 rid=dataSnapshot.getValue().toString();
+
+                            database.child("restaurateur").child(rid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    latrest=dataSnapshot.child("0").getValue().toString();
+                                    longrest=dataSnapshot.child("1").getValue().toString();
+                                    rest_ind_btn.setEnabled(true);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -158,6 +179,20 @@ public class OrderActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(!(dataSnapshot.getValue()==null))
                                 cid=dataSnapshot.getValue().toString();
+
+                            database.child("customer").child(cid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    latcust=dataSnapshot.child("0").getValue().toString();
+                                    longcust=dataSnapshot.child("1").getValue().toString();
+                                    cust_ind_btn.setEnabled(true);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -200,6 +235,41 @@ public class OrderActivity extends AppCompatActivity {
                     database.child("restaurateur").child(rid).child("orders").child(oid).child("status").setValue("4");
                     database.child("customer").child(cid).child("currentOrder").child("status").setValue("4");
                     database.child("biker").child(uid).child("currentOrder").removeValue();
+                    Double dist = Haversine.distance(Double.parseDouble(latrest),Double.parseDouble(longrest),Double.parseDouble(latcust),Double.parseDouble(longcust));
+                    database.child("biker").child(uid).child("stats").child("dist").runTransaction(new Transaction.Handler() {
+                        @NonNull
+                        @Override
+                        public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                            if(mutableData.getValue() == null) {
+                                mutableData.setValue((double)Math.round(dist*100d)/100d);
+                            } else {
+                                mutableData.setValue((Double) mutableData.getValue() + (double)Math.round(dist*100d)/100d);
+                            }
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                        }
+                    });
+                    database.child("biker").child(uid).child("stats").child("num").runTransaction(new Transaction.Handler() {
+                        @NonNull
+                        @Override
+                        public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                            if(mutableData.getValue() == null) {
+                                mutableData.setValue(1);
+                            } else {
+                                mutableData.setValue((Long) mutableData.getValue() + 1);
+                            }
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                        }
+                    });
                     Toast.makeText(OrderActivity.this, "Delivery successful!", Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (choices[choice].equals("No")) {
@@ -211,38 +281,13 @@ public class OrderActivity extends AppCompatActivity {
 
 
         rest_ind_btn.setOnClickListener(e->{
-            database.child("restaurateur").child(rid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    latrest=dataSnapshot.child("0").getValue().toString();
-                    longrest=dataSnapshot.child("1").getValue().toString();
-                    Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latrest+","+longrest));
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
+            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latrest+","+longrest));
+            startActivity(intent);
         });
 
         cust_ind_btn.setOnClickListener(e->{
-            database.child("customer").child(cid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    latcust=dataSnapshot.child("0").getValue().toString();
-                    longcust=dataSnapshot.child("1").getValue().toString();
-                    Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latcust+","+longcust));
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latcust+","+longcust));
+            startActivity(intent);
         });
 
     }

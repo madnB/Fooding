@@ -117,7 +117,6 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                             fire.setWork_hours(dataSnapshot1.child("work_hours").getValue().toString());
                         DataSnapshot ls=dataSnapshot1.child("location").child("KEY").child("l");
                         Double dist=Haversine.distance(Double.parseDouble(ls.child("0").getValue().toString()), Double.parseDouble(ls.child("1").getValue().toString()), latitude, longitude);
-                        DecimalFormat df=new DecimalFormat("#.##");
                         fire.setDist((double)Math.round(dist*100d)/100d);
                         fire.setUid(dataSnapshot1.getKey());
                         fire.setPhotoUri(dataSnapshot1.getKey()+"/photo.jpg");
