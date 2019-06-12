@@ -236,6 +236,7 @@ public class MenuActivity extends AppCompatActivity {
                     orderRef.child("priceL").setValue(total_tv.getText().toString());
                     currOrderRef.child("priceL").setValue(total_tv.getText().toString());
                     currOrderRef.child("rid").setValue(uid);
+                    currOrderRef.child("oid").setValue(orderRef.getKey());
                     for(Dish dish : order.dishList){
                         orderRef.child("dishes").child(dish.getName()).setValue(dish.getQtySel());
                         myRef.child("restaurateur").child(uid).child("stats").child("food").child(dish.getName()).runTransaction(new Transaction.Handler() {

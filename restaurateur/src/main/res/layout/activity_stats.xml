@@ -51,7 +51,7 @@
                     android:ellipsize="end"
                     android:maxLength="40"
                     android:maxLines="2"
-                    android:text="OCCCCCCCCCCCCCCCCfCCCCCCCCCCCCCCCCCCCCC"
+                    android:text="No stats avaliable"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="22dp" />
 
@@ -68,7 +68,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="2dp"
                     android:paddingBottom="8dp"
-                    android:text="Ordered: 1"
+                    android:text="Ordered: 0"
                     android:textColor="@color/secondaryColor"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -137,7 +137,7 @@
                     android:ellipsize="end"
                     android:maxLength="40"
                     android:maxLines="2"
-                    android:text="OCCCCCCCCCCCCCCCCfCCCCCCCCCCCCCCCCCCCCC"
+                    android:text="No stats avaliable"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="22dp" />
 
@@ -154,7 +154,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="2dp"
                     android:paddingBottom="8dp"
-                    android:text="Ordered: 1"
+                    android:text="Ordered: 0"
                     android:textColor="@color/secondaryColor"
                     android:textSize="18dp"
                     android:textStyle="bold" />

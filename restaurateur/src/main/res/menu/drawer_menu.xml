@@ -15,6 +15,10 @@
             android:icon="@drawable/ic_assignment_late_black_24dp"
             android:title="@string/orders_btn" />
         <item
+            android:id="@+id/past_btn"
+            android:icon="@drawable/ic_forum_black_24dp"
+            android:title="@string/past_btn" />
+        <item
             android:id="@+id/stats_btn"
             android:icon="@drawable/ic_equalizer_black_24dp"
             android:title="@string/stats_btn" />

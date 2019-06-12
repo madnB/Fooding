@@ -34,6 +34,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
     private ImageView photo_iv;
     private String uid;
     private String rid;
+    private String oid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
                 distance_tv.setText(dataSnapshot.child("deliveryTime").getValue().toString());
                 int status=Integer.parseInt(dataSnapshot.child("status").getValue().toString());
                 rid=dataSnapshot.child("rid").getValue().toString();
+                oid=dataSnapshot.child("oid").getValue().toString();
                 switch(status){
                         case 0:
                             photo_iv.setImageResource(R.mipmap.new_order);
@@ -112,7 +114,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SEND", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    DatabaseReference dr=database.child("reviews").child(rid).push();
+                    DatabaseReference dr=database.child("reviews").child(rid).child(oid);
                     dr.child("rate").setValue(Float.toString(rate_rb.getRating()));
                     dr.child("comment").setValue(text_et.getText().toString());
                     database.child("reviews").child(rid).addListenerForSingleValueEvent(new ValueEventListener() {
