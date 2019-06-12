@@ -11,6 +11,7 @@ public class Order implements Serializable, Comparable<Order> {
 
     private String orderId;
     private String custId;
+    private String bikerId;
     private int status;
     private ArrayList<Dish> dishList;
     private String info;
@@ -19,9 +20,6 @@ public class Order implements Serializable, Comparable<Order> {
     private String price;
     private long priceL;
 
-
-
-    private String bikerId;
 
     public Order(){}
 

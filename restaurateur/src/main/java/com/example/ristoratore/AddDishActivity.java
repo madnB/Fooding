@@ -199,7 +199,7 @@ public class AddDishActivity extends AppCompatActivity {
             }
             long fileSize = afd.getLength();
 
-            database.child("restaurateur").child(uid).child("stats").child("food").child(name).setValue("0");
+
 
 
 
