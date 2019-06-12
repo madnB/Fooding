@@ -34,6 +34,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
     private ImageView photo_iv;
     private String uid;
     private String rid;
+    private int status;
     private String oid;
 
     @Override
@@ -88,6 +89,10 @@ public class CurrentOrderActivity extends AppCompatActivity {
         });
 
         accept_btn.setOnClickListener(e->{
+            if(status!=4){
+                Toast.makeText(CurrentOrderActivity.this, "Order is still not delivered!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             final CharSequence[] choices = { "Yes", "No"};
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CurrentOrderActivity.this);
             dialogBuilder.setTitle("Leave no review for restaurant?");
@@ -104,6 +109,11 @@ public class CurrentOrderActivity extends AppCompatActivity {
         });
 
         review_btn.setOnClickListener(view->{
+            if(status!=4){
+                Toast.makeText(CurrentOrderActivity.this, "Can't review undelivered order!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             view=getLayoutInflater().inflate(R.layout.dialog_review, null);
             AlertDialog alertDialog = new AlertDialog.Builder(CurrentOrderActivity.this).create();
             alertDialog.setTitle("Leave a review");
@@ -163,7 +173,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
         database.child("customer").child(uid).child("currentOrder").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int status=Integer.parseInt(dataSnapshot.child("status").getValue().toString());
+                status=Integer.parseInt(dataSnapshot.child("status").getValue().toString());
                 switch(status){
                     case 0:
                         photo_iv.setImageResource(R.mipmap.new_order);
