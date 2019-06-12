@@ -17,7 +17,9 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
-
+/*
+Service for notifications.
+ */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Called when message is received.
@@ -27,9 +29,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        // If the application is in the foreground handle both data and notification messages here.
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String, String> data = remoteMessage.getData();
 
@@ -77,7 +76,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Notification Channel is required for Android O and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     "channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT

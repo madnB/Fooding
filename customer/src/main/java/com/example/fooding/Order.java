@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+/*
+Java class that stores info about the order.
+ */
 public class Order implements Serializable, Comparable<Order> {
 
     private String orderId;

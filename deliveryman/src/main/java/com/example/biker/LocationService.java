@@ -16,7 +16,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+/*
+Service used to track the biker's position in real time, using GeoFire
+ */
 public class LocationService extends Service{
     private static final String TAG = "TESTGPS";
     private LocationManager mLocationManager = null;
@@ -47,7 +49,6 @@ public class LocationService extends Service{
                             GeoFire.CompletionListener(){
                                 @Override
                                 public void onComplete(String key, DatabaseError error) {
-                                    //Do some stuff if you want to
                                     Log.e(TAG, "onLocationChanged - in Firebase onComplete: "+error );
 
                                 }

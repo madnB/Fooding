@@ -25,6 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
+/*
+Activity used to see the current order to be delivered.
+ */
 public class OrderActivity extends AppCompatActivity {
     private DatabaseReference database;
     private FirebaseUser currentUser;
@@ -126,6 +129,7 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
+        // Confirm the delivery.
         confirm_btn.setOnClickListener(e->{
             final CharSequence[] choices = { "Yes", "No"};
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OrderActivity.this);
@@ -180,12 +184,13 @@ public class OrderActivity extends AppCompatActivity {
             dialogBuilder.show();
         });
 
-
+        // Get directions to reach restaurant from current position using google maps
         rest_ind_btn.setOnClickListener(e->{
             Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latrest+","+longrest));
             startActivity(intent);
         });
 
+        // Get directions to reach the customer from current position using google maps
         cust_ind_btn.setOnClickListener(e->{
             Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latcust+","+longcust));
             startActivity(intent);

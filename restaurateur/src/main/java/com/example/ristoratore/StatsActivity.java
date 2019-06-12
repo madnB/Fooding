@@ -23,7 +23,9 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Shows the statistics about the most ordered food and the most popular time of the day orders are made for.
+ */
 public class StatsActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

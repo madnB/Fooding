@@ -37,7 +37,9 @@ import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Activity for logging in with email and password
+ */
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText email_et;

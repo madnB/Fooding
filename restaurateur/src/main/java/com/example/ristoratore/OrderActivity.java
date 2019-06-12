@@ -38,6 +38,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
+/*
+Activity showing new and on delivery orders, pressing on one shows more detailed info
+ */
 @SuppressLint("Registered")
 public class OrderActivity extends AppCompatActivity implements OrderViewAdapter.ItemClickListener {
 
@@ -125,7 +128,6 @@ public class OrderActivity extends AppCompatActivity implements OrderViewAdapter
     protected void onResume() {
         super.onResume();
         loadData();
-        //buildRecyclerView();
     }
 
     @Override

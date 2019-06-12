@@ -23,14 +23,15 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
+/*
+Used to create cards for the dishes in the order.
+See item_recycler_2.xml for more info.
+ */
 public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecyclerViewAdapter.ViewHolder> {
 
     private List<Dish> itemList;
     private LayoutInflater layInflater;
-    //private ItemClickListener clkListener;
     private Typeface robotoRegular, robotoBold;
-    //private ItemLongClickListener longClkListener;
 
     SimpleRecyclerViewAdapter(Context context, List<Dish> data) {
         this.layInflater = LayoutInflater.from(context);
@@ -49,16 +50,9 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos) {
         Dish dish = itemList.get(pos);
-        //final boolean[] isReverse = {false}; // for reverting the animation
 
         holder.dishName.setTypeface(robotoRegular);
         holder.dishName.setText(dish.getName());
-
-        //holder.dishPrice.setTypeface(robotoBold);
-        //holder.dishPrice.setText(dish.getPrice());
-
-        //holder.dishDesc.setTypeface(robotoBold);
-        //holder.dishDesc.setText(dish.getDescription());
 
         holder.dishQtySel.setTypeface(robotoBold);
         holder.dishQtySel.setText("Ordered: "+dish.getQtySel());
@@ -70,26 +64,6 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
                 Picasso.get().load(uri).into(holder.dishPhoto);
             }
         });
-
-        /*holder.slideAnimator.addUpdateListener(animation -> {
-            holder.cardView.getLayoutParams().height = (Integer) animation.getAnimatedValue(); // set as height the value the interpolator is at
-            holder.cardView.requestLayout(); // force all layouts to see which ones are affected by this layouts height change
-        });*/
-
-        /*holder.itemView.setOnClickListener(v -> {
-            AnimatorSet set = new AnimatorSet();
-            if (!isReverse[0]) {
-                set.setInterpolator(new AccelerateDecelerateInterpolator());
-                holder.dishDesc.setVisibility(View.VISIBLE);
-                isReverse[0] = !isReverse[0];
-            } else {
-                set.setInterpolator(new ReverseInterpolator());
-                holder.dishDesc.setVisibility(View.GONE);
-                isReverse[0] = !isReverse[0];
-            }
-            set.play(holder.slideAnimator);
-            set.start();
-        });*/
     }
 
     @Override
@@ -127,39 +101,10 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
             dishPrice = itemView.findViewById(R.id.dish_price_tv);
             dishDesc = itemView.findViewById(R.id.dish_desc_tv);
             dishQtySel = itemView.findViewById(R.id.dish_qtySel_tv);
-            //itemView.setOnClickListener(this);
-            //itemView.setOnLongClickListener(this);
         }
-
-        /*@Override
-        public void onClick(View view) {
-            if (clkListener != null) clkListener.onItemClick(view, getAdapterPosition());
-        }
-
-        @Override
-        public boolean onLongClick(View view){
-            if(longClkListener != null) longClkListener.onItemLongClick(view, getAdapterPosition());
-            return false;
-        }*/
     }
 
     Dish getItem(int id) {
         return itemList.get(id);
     }
-
-    /*void setClickListener(ItemClickListener itemClickListener) { // Catch click events
-        this.clkListener = itemClickListener;
-    }
-
-    void setLongClkListener(ItemLongClickListener longClkLister){
-        this.longClkListener = longClkLister;
-    }
-
-    public interface ItemClickListener { // parent activity will implement this method to respond to click events
-        void onItemClick(View view, int position);
-    }
-
-    public interface ItemLongClickListener {
-        void onItemLongClick(View view, int position);
-    }*/
 }

@@ -38,7 +38,9 @@ import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Signs up with email and password
+ */
 public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText email_et;
@@ -86,7 +88,6 @@ public class SignupActivity extends AppCompatActivity {
                         finish();
                     } else {
                         // If sign in fails, display a message to the user.
-                        //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         Toast.makeText(SignupActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }

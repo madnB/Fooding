@@ -25,6 +25,9 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/*
+Activity showing how many kilometres have been traveled, and how many deliveries completed.
+ */
 public class StatsActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

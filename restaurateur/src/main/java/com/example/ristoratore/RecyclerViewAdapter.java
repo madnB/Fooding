@@ -23,7 +23,10 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
+/*
+Java class used to create cards for the orders.
+See item_recycler.xml for more info.
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<Dish> itemList;

@@ -31,7 +31,9 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+/*
+Activity that shows the status of the biker that has been chosen for the delivery. Can be changed if any problem arises.
+ */
 public class SingleBikerActivity extends AppCompatActivity{
     private static final int RESULT_STATUS_CHANGE = 46;
     private static final int RESULT_STATUS_ABORT = 49;

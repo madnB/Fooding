@@ -32,7 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
-
+/*
+Shows the available bikers, in order to choose one.
+ */
 public class BikerActivity extends AppCompatActivity implements BikerViewAdapter.ItemClickListener{
     private static final int RESULT_STATUS_CHANGE = 46;
     private RecyclerView rView;
@@ -129,6 +131,7 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                         bikers.add(fire);
                     }
                 }
+                // Nearest bikers first
                 Collections.sort(bikers);
                 buildReciclerView();
             }
@@ -159,7 +162,6 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
 
     @Override
     public void onItemClick(View view, int position) {
-        //Toast.makeText(this, "Clicked " + adapter.getItem(position).getName() + " on position " + position, Toast.LENGTH_SHORT).show();
         final CharSequence[] items = { "Yes", "No"};
         AlertDialog.Builder builder = new AlertDialog.Builder(BikerActivity.this);
         builder.setTitle("Do you want this biker to deliver the order?");
