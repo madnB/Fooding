@@ -78,7 +78,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     deladdress_tv.setText(orderref.child("deliveryAddress").getValue().toString());
                     deltime_tv.setText(orderref.child("deliveryHour").getValue().toString());
-                    info_tv.setText(orderref.child("info").getValue().toString());
+                    info_tv.setText("Extra info: "+orderref.child("info").getValue().toString());
                     price_tv.setText(orderref.child("price").getValue().toString());
                     address_tv.setText(orderref.child("restaurantAddress").getValue().toString());
                     name_tv.setText(orderref.child("restaurantName").getValue().toString());
