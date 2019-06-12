@@ -31,7 +31,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
+/*
+BrowseActivity is the one that lets the customer choose the restaurant to order from. He can choose to go to his favourites
+(see FavActivity) and filter by restaurant type with a spinner
+ */
 public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.ItemClickListener{
 
     FirebaseDatabase database;
@@ -121,6 +124,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                             // whenever data at this location is updated.
 
                             for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
+                                // Download the restaurants of chosen type.
                                 Restaurant fire = new Restaurant();
                                 fire.setUid(dataSnapshot1.getKey());
                                 fire.setUri(dataSnapshot1.getKey()+"/photo.jpg");
@@ -140,6 +144,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                                                 }
 
                                                 list.add(fire);
+                                                // Sort by rating.
                                                 Collections.sort(list, Collections.reverseOrder());
 
                                                 rLayoutManager = new LinearLayoutManager(BrowseActivity.this);
@@ -148,6 +153,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseAdapter.I
                                                 adapter.setClickListener(BrowseActivity.this);
                                                 recycle.setAdapter(adapter);
 
+                                                // If there is no restaurant available, textview alerts the user.
                                                 if (list.isEmpty()) {
                                                     recycle.setVisibility(View.GONE);
                                                     emptyView.setVisibility(View.VISIBLE);

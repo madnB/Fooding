@@ -150,15 +150,21 @@ public class DeliveredActivity extends AppCompatActivity implements OrderViewAda
         database.child("reviews").child(uid).child(orders.get(position).getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("comment").getValue()!=null) {
-                    text_tv.setText(dataSnapshot.child("comment").getValue().toString());
+                if(dataSnapshot.getChildrenCount()!=0) {
+                    if (dataSnapshot.child("comment").getValue() != null) {
+                        text_tv.setText(dataSnapshot.child("comment").getValue().toString());
+                    }
+                    if (dataSnapshot.child("rate").getValue() != null) {
+                        rate_rb.setRating(Float.parseFloat(dataSnapshot.child("rate").getValue().toString()));
+                    } else {
+                        rate_rb.setRating(0);
+                    }
                 }
-                if(dataSnapshot.child("rate").getValue()!=null) {
-                    rate_rb.setRating(Float.parseFloat(dataSnapshot.child("rate").getValue().toString()));
-                }
-                else {
+                else{
+                    text_tv.setText("No review for this delivery");
                     rate_rb.setRating(0);
                 }
+
             }
 
             @Override

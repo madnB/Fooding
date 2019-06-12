@@ -8,6 +8,7 @@
         android:id="@+id/text_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:gravity="top"
         android:hint="No comments avaliable"
         android:inputType="textCapSentences"
