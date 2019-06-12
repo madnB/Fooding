@@ -31,6 +31,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/*
+Activity showing the preferred restaurants by the customer.
+ */
 public class FavActivity extends AppCompatActivity implements BrowseAdapter.ItemClickListener{
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -88,8 +91,8 @@ public class FavActivity extends AppCompatActivity implements BrowseAdapter.Item
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        recycle = (RecyclerView) findViewById(R.id.restaurant_rView);
-        emptyView = (TextView) findViewById(R.id.empty_view);
+        recycle = findViewById(R.id.restaurant_rView);
+        emptyView = findViewById(R.id.empty_view);
         rLayoutManager = new LinearLayoutManager(FavActivity.this);
         recycle.setLayoutManager(rLayoutManager);
         adapter = new BrowseAdapter(FavActivity.this, list);

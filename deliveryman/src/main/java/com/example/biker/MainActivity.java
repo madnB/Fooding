@@ -181,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        else{
+            alert_tv.setText("Login to start working for Fooding!");
+        }
 
 
     }
@@ -299,6 +302,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+        }
+        else{
+            alert_tv.setText("Login to start working for Fooding!");
         }
 
     }

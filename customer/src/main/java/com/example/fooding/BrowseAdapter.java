@@ -19,7 +19,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+BrowseAdapter is the adapter for showing the restaurants in BrowseActivity.
+See browse_recycler.xml for info on how the card is formatted.
+ */
 public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder> {
 
     private List<Restaurant> itemList;

@@ -3,7 +3,9 @@ package com.example.fooding;
 import android.widget.ImageView;
 
 import java.io.Serializable;
-
+/*
+Java class containing info about a dish.
+ */
 public class Dish implements Serializable {
 
     private String name;

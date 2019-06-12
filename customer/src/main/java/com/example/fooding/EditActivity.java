@@ -62,19 +62,14 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/*
+Activity for editing the profile.
+ */
 public class EditActivity extends AppCompatActivity {
 
     private static final int CAM_REQ = 10;
     private static final int GALLERY_REQ = 11;
     private static final int STORAGE_PERMISSION_CODE = 100;
-    public static final String URI_PREFS = "uri_prefs";
-    public static final String NAME_PREFS = "name_prefs";
-    public static final String ADDR_PREFS = "address_prefs";
-    public static final String TEL_PREFS = "tel_prefs";
-    public static final String MAIL_PREFS = "mail_prefs";
-    public static final String CARD_PREFS = "card_prefs";
-    public static final String INFO_PREFS = "info_prefs";
-    public static final String PASSWORD_PREFS = "password_prefs";
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -92,8 +87,6 @@ public class EditActivity extends AppCompatActivity {
     private EditText info_et;
     private Uri selectedImage;
     private String uid;
-    //SharedPreferences preferences;
-    //SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,30 +110,6 @@ public class EditActivity extends AppCompatActivity {
         card_et = findViewById(R.id.card_et);
         info_et = findViewById(R.id.info_et);
         addImage = findViewById(R.id.add_image_btn);
-
-        //////OLD VERSION WITH SHARED PREFERENCES ////////
-
-        /*preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = preferences.edit();
-
-
-        if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.mipmap.iconmonstr_256);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_et.setText(preferences.getString(NAME_PREFS, ""));
-        if(preferences.contains(EditActivity.ADDR_PREFS))
-            addr_et.setText(preferences.getString(ADDR_PREFS, ""));
-        if(preferences.contains(EditActivity.TEL_PREFS))
-            tel_et.setText(preferences.getString(TEL_PREFS, ""));
-        if(preferences.contains(EditActivity.MAIL_PREFS))
-            mail_et.setText(preferences.getString(MAIL_PREFS, ""));
-        if(preferences.contains(EditActivity.CARD_PREFS))
-            card_et.setText(preferences.getString(CARD_PREFS, ""));
-        if(preferences.contains(EditActivity.INFO_PREFS))
-            info_et.setText(preferences.getString(INFO_PREFS, ""));*/
 
 
         uid=currentUser.getUid();
@@ -230,68 +199,6 @@ public class EditActivity extends AppCompatActivity {
 
         save_btn.setOnClickListener(e -> {
 
-            /*mAuth.createUserWithEmailAndPassword(mail_et.getText().toString(), password_et.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(EditActivity.this, "Authentication success.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(EditActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-
-                    }
-                }
-            });
-
-            mAuth.signInWithEmailAndPassword(mail_et.getText().toString(), password_et.getText().toString());
-            FirebaseUser user=mAuth.getCurrentUser();
-            String uid=user.getUid();
-            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-            database.child("message").setValue("Hello world!");
-            database.child("customer").child(uid).child("name").setValue(name_et.getText().toString());
-            database.child("customer").child(uid).child("address").setValue(addr_et.getText().toString());
-            database.child("customer").child(uid).child("telephone").setValue(tel_et.getText().toString());
-            database.child("customer").child(uid).child("card_num").setValue(card_et.getText().toString());
-            database.child("customer").child(uid).child("info").setValue(info_et.getText().toString());*/
-
-            ////////OLD VERSION WITH SHARED PREFERENCES//////////
-
-            /*if(!(name_et.getText().toString().equals(preferences.getString(NAME_PREFS, "")))) {
-                editor.putString(NAME_PREFS, name_et.getText().toString());
-                editor.apply();
-            }
-            if(!(addr_et.getText().toString().equals(preferences.getString(ADDR_PREFS, "")))) {
-                editor.putString(ADDR_PREFS, addr_et.getText().toString());
-                editor.apply();
-            }
-            if(!(tel_et.getText().toString().equals(preferences.getString(TEL_PREFS, "")))) {
-                editor.putString(TEL_PREFS, tel_et.getText().toString());
-                editor.apply();
-            }
-            if(!(mail_et.getText().toString().equals(preferences.getString(MAIL_PREFS, "")))) {
-                editor.putString(MAIL_PREFS, mail_et.getText().toString());
-                editor.apply();
-            }
-            if(!(card_et.getText().toString().equals(preferences.getString(CARD_PREFS, "")))) {
-                editor.putString(CARD_PREFS, card_et.getText().toString());
-                editor.apply();
-            }
-            if(!(info_et.getText().toString().equals(preferences.getString(INFO_PREFS, "")))) {
-                editor.putString(INFO_PREFS, info_et.getText().toString());
-                editor.apply();
-            }
-            if(!(password_et.getText().toString().equals(preferences.getString(PASSWORD_PREFS, "")))) {
-                editor.putString(PASSWORD_PREFS, password_et.getText().toString());
-                editor.apply();
-            }
-            if(selectedImage != null && !(selectedImage.toString().equals(preferences.getString(URI_PREFS, "")))) {
-                editor.putString(URI_PREFS, selectedImage.toString());
-                editor.apply();
-            }*/
-
             currentUser.updateEmail(mail_et.getText().toString());
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name_et.getText().toString()).build();
@@ -342,7 +249,6 @@ public class EditActivity extends AppCompatActivity {
                                     GeoFire.CompletionListener(){
                                         @Override
                                         public void onComplete(String key, DatabaseError error) {
-                                            //Do some stuff if you want to
                                             Log.e("EditActivity", "onLocationChanged - in Firebase onComplete: "+error );
 
                                         }
@@ -366,7 +272,7 @@ public class EditActivity extends AppCompatActivity {
             long fileSize = afd.getLength();
 
 
-
+            // Compress the photo if it is too big.
             if(fileSize>=1000000) {
                 try {
                     Bitmap bitmap = Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage), 640, 480, true);
@@ -385,7 +291,6 @@ public class EditActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
                             Toast.makeText(EditActivity.this, "Upload successful!",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -402,21 +307,17 @@ public class EditActivity extends AppCompatActivity {
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
                         Toast.makeText(EditActivity.this, "Upload failure.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        // ...
                         Toast.makeText(EditActivity.this, "Upload successful!",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-            //finish();
         }
         else{
                 Toast.makeText(EditActivity.this, "Upload successful!",
@@ -444,8 +345,6 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //if(selectedImage != null && !(selectedImage.toString().equals(preferences.getString(URI_PREFS, ""))))
-            //outState.putParcelable("uri", selectedImage);
     }
 
     public boolean isStoragePermissionGranted() {

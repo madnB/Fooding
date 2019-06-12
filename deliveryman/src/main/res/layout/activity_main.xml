@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:text="You are currently delivering an order. \n Cannot change status to available "
+            android:text="@string/alert_text"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
         <RelativeLayout
