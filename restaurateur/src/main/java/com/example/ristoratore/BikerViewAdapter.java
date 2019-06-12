@@ -22,7 +22,9 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-
+/*
+Adapter for the biker cards, see biker_recycler.xml for more info.
+ */
 public class BikerViewAdapter  extends RecyclerView.Adapter<BikerViewAdapter.ViewHolder>  {
     private List<Biker> itemList;
     private LayoutInflater layInflater;

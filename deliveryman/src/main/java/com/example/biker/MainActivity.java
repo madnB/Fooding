@@ -36,10 +36,10 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Main activity for biker's app, can reach other activities with the drawer menu
+ */
 public class MainActivity extends AppCompatActivity {
-
-    public static final String NAME_PREFS = "name_prefs";
 
     SharedPreferences preferences;
     private CircleImageView avatar;
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         alert_tv = findViewById(R.id.alert_text);
 
 
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
             FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -84,15 +83,6 @@ public class MainActivity extends AppCompatActivity {
         View header = nv.getHeaderView(0);
         avatar = header.findViewById(R.id.avatar);
         name_tv = header.findViewById(R.id.textView);
-
-
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.mipmap.deliveryman);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(NAME_PREFS, "")); */
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             avatar.setImageResource(R.mipmap.iconmonstr_256);
@@ -202,15 +192,6 @@ public class MainActivity extends AppCompatActivity {
         avatar = header.findViewById(R.id.avatar);
         name_tv = header.findViewById(R.id.textView);
 
-
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.drawable.ic_launcher_foreground);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(NAME_PREFS, "")); */
-
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             avatar.setImageResource(R.mipmap.iconmonstr_256);
         }
@@ -234,8 +215,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-            /*if(checkLocationPermission())
-                startService(new Intent(this, LocationService.class).putExtra("databaseurl", FirebaseDatabase.getInstance().getReference().child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").toString()));*/
         }
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -245,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
 
+            // Toggle button used from the biker to set himself unavailable even if he is not delivering anything.
+            // Can't be pressed if the biker is currently working on a delivery.
             toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
             alert_tv = findViewById(R.id.alert_text);
             myRef.child("biker").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -331,13 +312,9 @@ public class MainActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 return;
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 

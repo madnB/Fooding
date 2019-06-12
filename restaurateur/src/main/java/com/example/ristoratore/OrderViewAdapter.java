@@ -15,7 +15,9 @@ import com.example.ristoratore.menu.Order;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-
+/*
+Adapter for order cards, see order_recycler.xml for more info.
+ */
 public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.ViewHolder> {
 
     private List<Order> itemList;

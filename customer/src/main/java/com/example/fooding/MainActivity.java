@@ -38,11 +38,13 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/*
+Main activity for the customer app, other activities can be accessed by the drawer menu
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String NAME_PREFS = "name_prefs";
 
-    SharedPreferences preferences;
     private CircleImageView avatar;
     private TextView name_tv;
     private DrawerLayout mDrawerLayout;
@@ -58,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main_drawer);
-
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         search_btn = findViewById(R.id.search_btn);
 
@@ -96,14 +96,6 @@ public class MainActivity extends AppCompatActivity {
         View header = nv.getHeaderView(0);
         avatar = header.findViewById(R.id.avatar);
         name_tv = header.findViewById(R.id.textView);
-
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.mipmap.iconmonstr_256);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(NAME_PREFS, ""));*/
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null)
             avatar.setImageResource(R.mipmap.iconmonstr_256);
@@ -143,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setContentView(R.layout.activity_main_drawer);
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         search_btn = findViewById(R.id.search_btn);
 
@@ -180,14 +171,6 @@ public class MainActivity extends AppCompatActivity {
         View header = nv.getHeaderView(0);
         avatar = header.findViewById(R.id.avatar);
         name_tv = header.findViewById(R.id.textView);
-
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.drawable.ic_launcher_foreground);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(NAME_PREFS, ""));*/
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null)
             avatar.setImageResource(R.mipmap.iconmonstr_256);
@@ -283,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(this, "User signed out.",
                     Toast.LENGTH_SHORT).show();
+            // Reset the app after logging off
             finish();
             startActivity(getIntent());
         }

@@ -36,12 +36,14 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Main activity for restaurateur app, can access other activities by drawer menu or the two buttons.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String NAME_PREFS = "name_prefs";
 
-    SharedPreferences preferences;
+
     private CircleImageView avatar;
     private TextView name_tv;
     private DrawerLayout mDrawerLayout;
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main_drawer);
 
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
             FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -96,14 +97,6 @@ public class MainActivity extends AppCompatActivity {
         avatar = header.findViewById(R.id.avatar);
         name_tv = header.findViewById(R.id.textView);
 
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.mipmap.chef_256);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(NAME_PREFS, "")); */
-
         if(FirebaseAuth.getInstance().getCurrentUser() == null)
             avatar.setImageResource(R.mipmap.iconmonstr_256);
         else{
@@ -140,8 +133,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //setContentView(R.layout.activity_main_drawer);
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         nv = findViewById(R.id.nav_view);
@@ -173,14 +164,6 @@ public class MainActivity extends AppCompatActivity {
         View header = nv.getHeaderView(0);
         avatar = header.findViewById(R.id.avatar);
         name_tv = header.findViewById(R.id.textView);
-
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.drawable.ic_launcher_foreground);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(NAME_PREFS, "")); */
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null)
             avatar.setImageResource(R.mipmap.iconmonstr_256);

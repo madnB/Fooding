@@ -25,7 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+/*
+Shows info about one order, also has a button that lets you choose a biker for the delivery.
+ */
 @SuppressLint("Registered")
 public class SingleOrderActivity extends AppCompatActivity {
 
@@ -127,7 +129,6 @@ public class SingleOrderActivity extends AppCompatActivity {
         deliveryTime.setText(sdf.format(order.getDeliveryTime().getTime()));
 
         loadData();
-        //buildRecyclerView();
 
         switch_status_btn.setOnClickListener(e -> {
             if(order.getStatus()==3){
@@ -144,66 +145,6 @@ public class SingleOrderActivity extends AppCompatActivity {
                 intent.putExtra("order", order);
                 startActivityForResult(intent, BIKER_REQ);
             }
-
-            /*final CharSequence[] items = { "New Order", "Cooking", "Ready","In Delivery"};
-            AlertDialog.Builder builder = new AlertDialog.Builder(SingleOrderActivity.this);
-            builder.setTitle("Change Order Status");
-            builder.setItems(items, (dialog, item) -> {
-                if (items[item].equals("New Order")) {
-                    order.setStatus(0);
-                    orderRef.child("status").setValue("0");
-                    orderStatus.setImageResource(R.mipmap.new_order);
-                } else if (items[item].equals("Cooking")) {
-                    order.setStatus(1);
-                    orderRef.child("status").setValue("1");
-                    orderStatus.setImageResource(R.mipmap.cooking);
-                } else if (items[item].equals("Ready")) {
-                    order.setStatus(2);
-                    orderRef.child("status").setValue("2");
-                    orderStatus.setImageResource(R.mipmap.ready);
-                } else if (items[item].equals("In Delivery")) {
-                    DatabaseReference bikerRef=database.child("biker");
-                    bikerRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            int flag=0;
-                            for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren() ){
-                                if(dataSnapshot1.child("status").getValue().toString().equals("True"))
-                                {
-                                    bikerRef.child(dataSnapshot1.getKey()).child("status").setValue("False");
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("restaurantName").setValue(restname);
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("restaurantAddress").setValue(restaddr);
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("deliveryAddress").setValue(order.getAddress());
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("deliveryHour").setValue(sdf.format(order.getDeliveryTime().getTime()));
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("price").setValue(order.getPrice());
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("info").setValue(order.getInfo());
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("restid").setValue(uid);
-                                    bikerRef.child(dataSnapshot1.getKey()).child("currentOrder").child("orderid").setValue(order.getOrderId());
-                                    order.setStatus(3);
-                                    orderRef.child("status").setValue("3");
-                                    orderStatus.setImageResource(R.mipmap.in_delivery);
-                                    flag=1;
-                                    break;
-                                }
-                            }
-                            if(flag==1){
-                                Toast.makeText(SingleOrderActivity.this, "Order has been sent to a biker!", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(SingleOrderActivity.this, "No biker available.", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-            });
-            builder.show();*/
 
         });
 
@@ -247,8 +188,6 @@ public class SingleOrderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //loadData();
-        //buildRecyclerView();
     }
 
 

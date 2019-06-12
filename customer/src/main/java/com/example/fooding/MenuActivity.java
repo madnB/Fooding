@@ -45,6 +45,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/*
+Activity for browsing a restaurant's menu and making a new order.
+ */
 public class MenuActivity extends AppCompatActivity {
     private RecyclerView rView;
     private RecyclerViewAdapter adapter;
@@ -97,7 +100,8 @@ public class MenuActivity extends AppCompatActivity {
         uidcust=FirebaseAuth.getInstance().getCurrentUser().getUid();
         uid=restaurant.getUid();
 
-        toggleButton = (ToggleButton) findViewById(R.id.myToggleButton);
+        // Button to set the restaurant as a favourite
+        toggleButton = findViewById(R.id.myToggleButton);
         myRef.child("customer").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("favourites").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -207,6 +211,7 @@ public class MenuActivity extends AppCompatActivity {
         order=new Order(orderRef.getKey(), 0, new ArrayList<Dish>(), null, null, null, null, (long) 0);
         FloatingActionButton order_btn = findViewById(R.id.order_btn);
 
+        // Button that opens the alertDialog used to create the new order
         order_btn.setOnClickListener(view -> {
             view=getLayoutInflater().inflate(R.layout.dialog_finish_order, null);
             final CharSequence[] choices = { "Yes", "No"};

@@ -47,7 +47,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-
+/*
+Activity used to add a new dish to the menu
+ */
 public class AddDishActivity extends AppCompatActivity {
 
     private static final int GALLERY_REQCODE = 31;
@@ -97,10 +99,6 @@ public class AddDishActivity extends AppCompatActivity {
         qty_dec = findViewById(R.id.qty_dec);
 
         uid=currentUser.getUid();
-
-
-        //name_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        //desc_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         if (savedInstanceState != null) {
             if(savedInstanceState.containsKey("uri_photo")) {
@@ -202,7 +200,7 @@ public class AddDishActivity extends AppCompatActivity {
 
 
 
-
+            // Compress the photo if it is too big
             if(fileSize>=1000000) {
                 try {
                     Bitmap bitmap = Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedPhoto), 640, 480, true);
@@ -221,7 +219,6 @@ public class AddDishActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
                             Toast.makeText(AddDishActivity.this, "Upload successful!",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -253,7 +250,6 @@ public class AddDishActivity extends AppCompatActivity {
                 });
             }
             dish = new Dish(name, description, photo, price, priceLong, qty, photoUri != null ? photoUri : "");
-            //finish();
         });
     }
 

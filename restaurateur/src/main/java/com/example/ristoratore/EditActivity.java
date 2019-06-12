@@ -67,6 +67,10 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+/*
+Activity for editing user profile.
+ */
 public class EditActivity extends AppCompatActivity {
 
     private static final int CAM_REQ = 10;
@@ -99,8 +103,6 @@ public class EditActivity extends AppCompatActivity {
     private Uri selectedImage;
     private String uid;
     private String tmp;
-    //SharedPreferences preferences;
-    //SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,33 +185,6 @@ public class EditActivity extends AppCompatActivity {
 
             }
         });
-        /*name_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        addr_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        info_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        hour_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);*/
-
-        //////OLD VERSION WITH SHARED PREFERENCES ////////
-
-        /*preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = preferences.edit();
-
-        if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.drawable.ic_launcher_foreground);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_et.setText(preferences.getString(NAME_PREFS, ""));
-        if(preferences.contains(EditActivity.ADDR_PREFS))
-            addr_et.setText(preferences.getString(ADDR_PREFS, ""));
-        if(preferences.contains(EditActivity.TEL_PREFS))
-            tel_et.setText(preferences.getString(TEL_PREFS, ""));
-        if(preferences.contains(EditActivity.MAIL_PREFS))
-            mail_et.setText(preferences.getString(MAIL_PREFS, ""));
-        if(preferences.contains(EditActivity.HOUR_PREFS))
-            hour_et.setText(preferences.getString(HOUR_PREFS, ""));
-        if(preferences.contains(EditActivity.INFO_PREFS))
-            info_et.setText(preferences.getString(INFO_PREFS, ""));*/
 
         uid=currentUser.getUid();
         photoref=storage.child(uid+"/photo.jpg");
@@ -314,38 +289,6 @@ public class EditActivity extends AppCompatActivity {
         });
 
         save_btn.setOnClickListener(e -> {
-
-
-            ////////OLD VERSION WITH SHARED PREFERENCES//////////
-
-            /*if(!(name_et.getText().toString().equals(preferences.getString(NAME_PREFS, "")))) {
-                editor.putString(NAME_PREFS, name_et.getText().toString());
-                editor.apply();
-            }
-            if(!(addr_et.getText().toString().equals(preferences.getString(ADDR_PREFS, "")))) {
-                editor.putString(ADDR_PREFS, addr_et.getText().toString());
-                editor.apply();
-            }
-            if(!(tel_et.getText().toString().equals(preferences.getString(TEL_PREFS, "")))) {
-                editor.putString(TEL_PREFS, tel_et.getText().toString());
-                editor.apply();
-            }
-            if(!(mail_et.getText().toString().equals(preferences.getString(MAIL_PREFS, "")))) {
-                editor.putString(MAIL_PREFS, mail_et.getText().toString());
-                editor.apply();
-            }
-            if(!(hour_et.getText().toString().equals(preferences.getString(HOUR_PREFS, "")))) {
-                editor.putString(HOUR_PREFS, hour_et.getText().toString());
-                editor.apply();
-            }
-            if(!(info_et.getText().toString().equals(preferences.getString(INFO_PREFS, "")))) {
-                editor.putString(INFO_PREFS, info_et.getText().toString());
-                editor.apply();
-            }
-            if(selectedImage != null && !(selectedImage.toString().equals(preferences.getString(URI_PREFS, "")))) {
-                editor.putString(URI_PREFS, selectedImage.toString());
-                editor.apply();
-            }*/
 
             currentUser.updateEmail(mail_et.getText().toString());
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -480,7 +423,6 @@ public class EditActivity extends AppCompatActivity {
                         }
                     });
                 }
-                //finish();
             }
             else{
                 Toast.makeText(EditActivity.this, "Upload successful!",
@@ -505,8 +447,6 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //if(selectedImage != null && !(selectedImage.toString().equals(preferences.getString(URI_PREFS, ""))))
-            //outState.putParcelable("uri", selectedImage);
     }
 
     public boolean isStoragePermissionGranted() {

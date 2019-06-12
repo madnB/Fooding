@@ -27,7 +27,10 @@ import com.squareup.picasso.Picasso;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
-
+/*
+Java class used to create cards for the orders.
+See item_recycler.xml for more info.
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<Dish> itemList;
@@ -95,8 +98,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.qtySel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //Intent myIntent = new Intent(view.getContext(), agones.class);
-                //startActivityForResult(myIntent, 0);
                 view = layInflater.inflate(R.layout.dialog_order, null);
                 AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                 alertDialog.setTitle("Input quantity");

@@ -40,7 +40,9 @@ import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Activity for creating new account with email and password.
+ */
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private FirebaseAuth mAuth;
@@ -79,10 +81,8 @@ public class SignupActivity extends AppCompatActivity {
 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    //Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        //Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String uid=user.getUid();
                         DatabaseReference database= FirebaseDatabase.getInstance().getReference();
@@ -93,7 +93,6 @@ public class SignupActivity extends AppCompatActivity {
                         finish();
                     } else {
                         // If sign in fails, display a message to the user.
-                        //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         Toast.makeText(SignupActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }

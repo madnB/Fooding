@@ -2,6 +2,9 @@ package com.example.fooding;
 
 import java.io.Serializable;
 
+/*
+Java class containing info about the restaurant.
+ */
 public class Restaurant implements Serializable, Comparable<Restaurant> {
 
     public String name;

@@ -26,7 +26,9 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
         import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Shows the user's profile
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -34,7 +36,6 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference database;
     private StorageReference storage;
     private StorageReference photoref;
-    SharedPreferences preferences;
     private CircleImageView avatar;
     private TextView name_tv;
     private TextView type_tv;
@@ -56,8 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
         avatar = findViewById(R.id.avatar);
         name_tv = findViewById(R.id.name_text);
         type_tv = findViewById(R.id.type_text);
@@ -71,25 +70,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        //OLD VERSION WITH PREFERENCES
-        /*if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if(avatar.getDrawable() == null)
-                avatar.setImageResource(R.mipmap.chef_256);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_tv.setText(preferences.getString(EditActivity.NAME_PREFS, ""));
-        if(preferences.contains(EditActivity.ADDR_PREFS))
-            addr_tv.setText(preferences.getString(EditActivity.ADDR_PREFS, ""));
-        if(preferences.contains(EditActivity.TEL_PREFS))
-            tel_tv.setText(preferences.getString(EditActivity.TEL_PREFS, ""));
-        if(preferences.contains(EditActivity.MAIL_PREFS))
-            mail_tv.setText(preferences.getString(EditActivity.MAIL_PREFS, ""));
-        if(preferences.contains(EditActivity.HOUR_PREFS))
-            hour_tv.setText(preferences.getString(EditActivity.HOUR_PREFS, ""));
-        if(preferences.contains(EditActivity.INFO_PREFS))
-            info_tv.setText(preferences.getString(EditActivity.INFO_PREFS, ""));*/
 
         String uid=currentUser.getUid();
 

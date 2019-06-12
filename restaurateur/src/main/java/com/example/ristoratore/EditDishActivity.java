@@ -53,6 +53,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+/*
+Activity for editing the info of a certain dish in the menu.
+ */
 public class EditDishActivity extends AppCompatActivity {
 
     private static final int GALLERY_REQCODE = 31;
@@ -104,9 +107,6 @@ public class EditDishActivity extends AppCompatActivity {
         qty_inc = findViewById(R.id.qty_inc);
         qty_dec = findViewById(R.id.qty_dec);
         Button save_btn = findViewById(R.id.save_dish_btn);
-
-        //name_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        //desc_et.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         Intent i = getIntent();
         position = i.getIntExtra("position", 0);
@@ -291,7 +291,6 @@ public class EditDishActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                    // ...
                                     Toast.makeText(EditDishActivity.this, "Upload successful!",
                                             Toast.LENGTH_SHORT).show();
                                 }
@@ -316,13 +315,11 @@ public class EditDishActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                // ...
                                 Toast.makeText(EditDishActivity.this, "Upload successful!",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
-                    //finish();
                 }
                 else{
                     Toast.makeText(EditDishActivity.this, "Upload successful!",
@@ -357,7 +354,6 @@ public class EditDishActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                    // ...
                                     storage.child(uid + "/" + name + ".jpg").delete();
                                     dish = new Dish(name1, description, photo, price, priceLong, qty, photoUri != null ? photoUri : "");
                                     Toast.makeText(EditDishActivity.this, "Upload successful!",
@@ -406,7 +402,6 @@ public class EditDishActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                    // ...
                                     Toast.makeText(EditDishActivity.this, "Upload successful!",
                                             Toast.LENGTH_SHORT).show();
                                     dish = new Dish(name1, description, photo, price, priceLong, qty, photoUri != null ? photoUri : "");
@@ -432,7 +427,6 @@ public class EditDishActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                // ...
                                 Toast.makeText(EditDishActivity.this, "Upload successful!",
                                         Toast.LENGTH_SHORT).show();
                                 dish = new Dish(name1, description, photo, price, priceLong, qty, photoUri != null ? photoUri : "");
@@ -440,7 +434,6 @@ public class EditDishActivity extends AppCompatActivity {
                         });
                     }
                     storage.child(uid + "/" + name + ".jpg").delete();
-                    //finish();
                 }
 
 
@@ -451,10 +444,6 @@ public class EditDishActivity extends AppCompatActivity {
                 database.child("restaurateur").child(uid).child("menu").child(name1).child("priceL").setValue(Long.toString(priceL));
 
             }
-
-
-
-            //finish();
         });
 
     }

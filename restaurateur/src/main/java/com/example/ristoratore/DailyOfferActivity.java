@@ -30,6 +30,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
+/*
+Activity showing the restaurant's menu, despise the name it is the full menu of the restaurant.
+ */
 @SuppressLint("Registered")
 public class DailyOfferActivity extends AppCompatActivity implements RecyclerViewAdapter.ItemClickListener, RecyclerViewAdapter.ItemLongClickListener {
 
@@ -37,7 +40,6 @@ public class DailyOfferActivity extends AppCompatActivity implements RecyclerVie
     private static final int EDIT_ITEM_REQ = 41;
     private static final int RESULT_SAVE = 34;
     private static final int RESULT_DELETE = 35;
-    SharedPreferences preferences;
     private static final String PREF_NAME = "DishList sp";
     private static final String DISHLIST_NAME = "Dishes List";
 
@@ -101,12 +103,6 @@ public class DailyOfferActivity extends AppCompatActivity implements RecyclerVie
 
             }
         }
-        /*else if (requestCode == EDIT_ITEM_REQ && resultCode == RESULT_DELETE){
-            int position = data.getIntExtra("position", 0);
-            dishes.remove(position);
-            adapter.notifyItemRemoved(position);
-            saveData();
-        }*/
     }
 
     private void saveData() {
@@ -164,8 +160,6 @@ public class DailyOfferActivity extends AppCompatActivity implements RecyclerVie
     @Override
     protected void onResume() {
         super.onResume();
-        //loadData();
-        //buildRecyclerView();
     }
 
     @Override

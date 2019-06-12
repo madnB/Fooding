@@ -49,7 +49,9 @@ import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Activity for editing user profile.
+ */
 public class EditActivity extends AppCompatActivity {
 
     private static final int CAM_REQ = 10;
@@ -79,8 +81,6 @@ public class EditActivity extends AppCompatActivity {
     private EditText info_et;
     private Uri selectedImage;
     private String uid;
-    //SharedPreferences preferences;
-    //SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,29 +105,6 @@ public class EditActivity extends AppCompatActivity {
         area_et = findViewById(R.id.area_et);
         info_et = findViewById(R.id.info_et);
         addImage = findViewById(R.id.add_image_btn);
-
-        //////OLD VERSION WITH SHARED PREFERENCES ////////
-
-        /*preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = preferences.edit();
-
-        if(preferences.contains(EditActivity.URI_PREFS)) {
-            avatar.setImageURI(Uri.parse(preferences.getString(EditActivity.URI_PREFS, "")));
-            if (avatar.getDrawable() == null)
-                avatar.setImageResource(R.mipmap.deliveryman);
-        }
-        if(preferences.contains(EditActivity.NAME_PREFS))
-            name_et.setText(preferences.getString(NAME_PREFS, ""));
-        if(preferences.contains(EditActivity.TEL_PREFS))
-            tel_et.setText(preferences.getString(TEL_PREFS, ""));
-        if(preferences.contains(EditActivity.MAIL_PREFS))
-            mail_et.setText(preferences.getString(MAIL_PREFS, ""));
-        if(preferences.contains(EditActivity.HOUR_PREFS))
-            hour_et.setText(preferences.getString(HOUR_PREFS, ""));
-        if(preferences.contains(EditActivity.AREA_PREFS))
-            area_et.setText(preferences.getString(AREA_PREFS, ""));
-        if(preferences.contains(EditActivity.INFO_PREFS))
-            info_et.setText(preferences.getString(INFO_PREFS, ""));*/
 
         uid=currentUser.getUid();
         photoref=storage.child(uid+"/photo.jpg");
@@ -216,37 +193,6 @@ public class EditActivity extends AppCompatActivity {
 
         save_btn.setOnClickListener(e -> {
 
-            ////////OLD VERSION WITH SHARED PREFERENCES//////////
-
-            /*if(!(name_et.getText().toString().equals(preferences.getString(NAME_PREFS, "")))) {
-                editor.putString(NAME_PREFS, name_et.getText().toString());
-                editor.apply();
-            }
-            if(!(tel_et.getText().toString().equals(preferences.getString(TEL_PREFS, "")))) {
-                editor.putString(TEL_PREFS, tel_et.getText().toString());
-                editor.apply();
-            }
-            if(!(mail_et.getText().toString().equals(preferences.getString(MAIL_PREFS, "")))) {
-                editor.putString(MAIL_PREFS, mail_et.getText().toString());
-                editor.apply();
-            }
-            if(!(hour_et.getText().toString().equals(preferences.getString(HOUR_PREFS, "")))) {
-                editor.putString(HOUR_PREFS, hour_et.getText().toString());
-                editor.apply();
-            }
-            if(!(area_et.getText().toString().equals(preferences.getString(AREA_PREFS, "")))) {
-                editor.putString(AREA_PREFS, area_et.getText().toString());
-                editor.apply();
-            }
-            if(!(info_et.getText().toString().equals(preferences.getString(INFO_PREFS, "")))) {
-                editor.putString(INFO_PREFS, info_et.getText().toString());
-                editor.apply();
-            }
-            if(selectedImage != null && !(selectedImage.toString().equals(preferences.getString(URI_PREFS, "")))) {
-                editor.putString(URI_PREFS, selectedImage.toString());
-                editor.apply();
-            }*/
-
             currentUser.updateEmail(mail_et.getText().toString());
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name_et.getText().toString()).build();
@@ -295,7 +241,7 @@ public class EditActivity extends AppCompatActivity {
                 long fileSize = afd.getLength();
 
 
-
+                // Compress photo if it is too big
                 if(fileSize>=1000000) {
                     try {
                         Bitmap bitmap = Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage), 640, 480, true);
@@ -345,7 +291,6 @@ public class EditActivity extends AppCompatActivity {
                         }
                     });
                 }
-                //finish();
             }
             else{
                 Toast.makeText(EditActivity.this, "Upload successful!",
@@ -369,8 +314,6 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //if(selectedImage != null && !(selectedImage.toString().equals(preferences.getString(URI_PREFS, ""))))
-            //outState.putParcelable("uri", selectedImage);
     }
 
     public boolean isStoragePermissionGranted() {

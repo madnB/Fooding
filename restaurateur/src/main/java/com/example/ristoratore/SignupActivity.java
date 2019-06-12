@@ -40,7 +40,9 @@ import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+/*
+Signs up with email and password
+ */
 public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText email_et;
