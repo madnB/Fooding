@@ -69,148 +69,49 @@ public class OrderActivity extends AppCompatActivity {
         cust_ind_btn.setEnabled(false);
         String uid=currentUser.getUid();
 
-        database.child("biker").child(uid).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("biker").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue().toString().equals("False")){
+                if(dataSnapshot.child("currentOrder").child("deliveryAddress").getValue()!=null){
 
-                    DatabaseReference orderref=database.child("biker").child(uid).child("currentOrder");
+                    DataSnapshot orderref=dataSnapshot.child("currentOrder");
 
-                    orderref.child("deliveryAddress").addListenerForSingleValueEvent(new ValueEventListener() {
+                    deladdress_tv.setText(orderref.child("deliveryAddress").getValue().toString());
+                    deltime_tv.setText(orderref.child("deliveryHour").getValue().toString());
+                    info_tv.setText(orderref.child("info").getValue().toString());
+                    price_tv.setText(orderref.child("price").getValue().toString());
+                    address_tv.setText(orderref.child("restaurantAddress").getValue().toString());
+                    name_tv.setText(orderref.child("restaurantName").getValue().toString());
+
+                    rid=orderref.child("restid").getValue().toString();
+                    database.child("restaurateur").child(rid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                deladdress_tv.setText(dataSnapshot.getValue().toString());
+                            latrest = dataSnapshot.child("0").getValue().toString();
+                            longrest = dataSnapshot.child("1").getValue().toString();
+                            rest_ind_btn.setEnabled(true);
                         }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+
+                    cid=orderref.child("custid").getValue().toString();
+                    database.child("customer").child(cid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            latcust=dataSnapshot.child("0").getValue().toString();
+                            longcust=dataSnapshot.child("1").getValue().toString();
+                            cust_ind_btn.setEnabled(true);
+                        }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
                     });
 
-                    orderref.child("deliveryHour").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                deltime_tv.setText(dataSnapshot.getValue().toString());
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("info").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                info_tv.setText(dataSnapshot.getValue().toString());
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("price").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                price_tv.setText(dataSnapshot.getValue().toString());
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("restaurantAddress").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                address_tv.setText(dataSnapshot.getValue().toString());
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("restaurantName").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                name_tv.setText(dataSnapshot.getValue().toString());
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("restid").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                rid=dataSnapshot.getValue().toString();
-
-                            database.child("restaurateur").child(rid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    latrest=dataSnapshot.child("0").getValue().toString();
-                                    longrest=dataSnapshot.child("1").getValue().toString();
-                                    rest_ind_btn.setEnabled(true);
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("custid").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                cid=dataSnapshot.getValue().toString();
-
-                            database.child("customer").child(cid).child("location").child("KEY").child("l").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    latcust=dataSnapshot.child("0").getValue().toString();
-                                    longcust=dataSnapshot.child("1").getValue().toString();
-                                    cust_ind_btn.setEnabled(true);
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    orderref.child("orderid").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!(dataSnapshot.getValue()==null))
-                                oid=dataSnapshot.getValue().toString();
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                    oid= orderref.child("orderid").getValue().toString();
                 }
                 else
                 {
