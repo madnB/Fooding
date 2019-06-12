@@ -106,6 +106,7 @@ public class SingleBikerActivity extends AppCompatActivity{
                     database.child("biker").child(order.getBikerId()).child("currentOrder").removeValue();
                     database.child("biker").child(order.getBikerId()).child("status").setValue("True");
                     database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("status").setValue("0");
+                    database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("bikerId").setValue("0");
                     database.child("customer").child(order.getCustId()).child("currentOrder").child("status").setValue("0");
                     order.setStatus(0);
                     order.setBikerId(null);
@@ -131,6 +132,7 @@ public class SingleBikerActivity extends AppCompatActivity{
                     database.child("biker").child(order.getBikerId()).child("currentOrder").removeValue();
                     database.child("biker").child(order.getBikerId()).child("status").setValue("True");
                     database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("status").setValue("0");
+                    database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("bikerId").setValue("0");
                     database.child("customer").child(order.getCustId()).child("currentOrder").child("status").setValue("0");
                     order.setStatus(0);
                     order.setBikerId(null);

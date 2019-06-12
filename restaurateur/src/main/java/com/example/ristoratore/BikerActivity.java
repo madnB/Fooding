@@ -116,8 +116,14 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                         if(dataSnapshot1.child("work_hours").getValue()!=null)
                             fire.setWork_hours(dataSnapshot1.child("work_hours").getValue().toString());
                         DataSnapshot ls=dataSnapshot1.child("location").child("KEY").child("l");
-                        Double dist=Haversine.distance(Double.parseDouble(ls.child("0").getValue().toString()), Double.parseDouble(ls.child("1").getValue().toString()), latitude, longitude);
-                        fire.setDist((double)Math.round(dist*100d)/100d);
+                        if(ls.getValue()==null){
+                            fire.setDist(-1.0);
+                        }
+                        else{
+                            Double dist=Haversine.distance(Double.parseDouble(ls.child("0").getValue().toString()), Double.parseDouble(ls.child("1").getValue().toString()), latitude, longitude);
+                            fire.setDist((double)Math.round(dist*100d)/100d);
+                        }
+
                         fire.setUid(dataSnapshot1.getKey());
                         fire.setPhotoUri(dataSnapshot1.getKey()+"/photo.jpg");
                         bikers.add(fire);
@@ -166,13 +172,14 @@ public class BikerActivity extends AppCompatActivity implements BikerViewAdapter
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("restaurantName").setValue(restname);
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("restaurantAddress").setValue(restaddr);
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("deliveryAddress").setValue(order.getAddress());
-                database.child("biker").child(adapter.getItem(position).getUid()).child("deliveryHour").setValue(sdf.format(order.getDeliveryTime().getTime()));
+                database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("deliveryHour").setValue(sdf.format(order.getDeliveryTime().getTime()));
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("price").setValue(order.getPrice());
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("info").setValue(order.getInfo());
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("restid").setValue(uid);
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("orderid").setValue(order.getOrderId());
                 database.child("biker").child(adapter.getItem(position).getUid()).child("currentOrder").child("custid").setValue(order.getCustId());
                 database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("status").setValue("3");
+                database.child("restaurateur").child(uid).child("orders").child(order.getOrderId()).child("bikerId").setValue(adapter.getItem(position).getUid());
                 database.child("customer").child(order.getCustId()).child("currentOrder").child("status").setValue("3");
                 Toast.makeText(BikerActivity.this, "Order has been sent to a biker!", Toast.LENGTH_SHORT).show();
                 order.setStatus(3);
